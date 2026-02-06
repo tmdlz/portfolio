@@ -1,0 +1,298 @@
+/* ===========================
+   PAGE PARCOURS - STYLES
+   =========================== */
+
+/* Header de page */
+.page-header {
+    text-align: center;
+    padding: var(--spacing-md) 0;
+}
+
+.page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+}
+
+/* Section icon */
+.section-icon {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    fill: var(--accent-green);
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    padding-left: 2rem;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: var(--spacing-xl);
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: -2.5rem;
+    top: 0.5rem;
+    width: 12px;
+    height: 12px;
+    background: var(--accent-green);
+    border: 3px solid var(--bg-page);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--accent-green);
+}
+
+.timeline-content {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    transition: all 0.3s ease;
+}
+
+.timeline-content:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateX(4px);
+}
+
+/* Timeline header */
+.timeline-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--spacing-sm);
+    gap: var(--spacing-md);
+}
+
+.timeline-title-group {
+    flex: 1;
+}
+
+.timeline-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+}
+
+.timeline-company {
+    font-size: 1rem;
+    color: var(--accent-blue);
+    font-weight: 500;
+}
+
+.timeline-date {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+/* Timeline meta */
+.timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.timeline-location {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Timeline description */
+.timeline-description {
+    margin-bottom: var(--spacing-md);
+}
+
+.timeline-description p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Missions */
+.timeline-missions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-md);
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+}
+
+.mission-item {
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.mission-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+}
+
+.mission-icon svg {
+    fill: var(--accent-green);
+}
+
+.mission-text {
+    flex: 1;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9375rem;
+}
+
+.mission-text strong {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.mission-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: var(--accent-blue);
+    text-decoration: none;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    transition: color 0.2s ease;
+}
+
+.mission-link:hover {
+    color: var(--accent-green);
+    text-decoration: underline;
+}
+
+.mission-link svg {
+    fill: currentColor;
+}
+
+/* Timeline tech tags */
+.timeline-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* Certifications Grid */
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.cert-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.cert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-green);
+}
+
+.cert-badge-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-sm);
+}
+
+.cert-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.cert-code {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--accent-blue);
+    margin-bottom: var(--spacing-sm);
+}
+
+.cert-meta {
+    margin-bottom: var(--spacing-md);
+}
+
+.cert-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    font-size: 0.9375rem;
+}
+
+.cert-card .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+    
+    .timeline {
+        padding-left: 1.5rem;
+    }
+    
+    .timeline-marker {
+        left: -2rem;
+    }
+    
+    .timeline-header {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .timeline-date {
+        align-self: flex-start;
+    }
+    
+    .timeline-missions {
+        padding: var(--spacing-sm);
+    }
+    
+    .mission-item {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .cert-grid {
+        grid-template-columns: 1fr;
+    }
+}

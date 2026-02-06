@@ -1,0 +1,298 @@
+/* ===========================
+   PAGE CONTACT - STYLES
+   =========================== */
+
+/* Contact Grid */
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Contact Cards */
+.contact-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent-green);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+.contact-card:not(.contact-card-static):hover::before {
+    transform: scaleX(1);
+}
+
+.contact-card:not(.contact-card-static):hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-green);
+}
+
+.contact-card-static {
+    cursor: default;
+}
+
+/* Contact Icon */
+.contact-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacing-md);
+    color: var(--accent-green);
+    transition: all 0.3s ease;
+}
+
+.contact-card:not(.contact-card-static):hover .contact-icon {
+    background: rgba(26, 127, 55, 0.1);
+    border-color: var(--accent-green);
+    transform: scale(1.05);
+}
+
+/* Contact Content */
+.contact-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.contact-value {
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--accent-blue);
+    margin-bottom: 0.5rem;
+    word-break: break-all;
+}
+
+.contact-action {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.contact-card:not(.contact-card-static):hover .contact-action {
+    color: var(--accent-green);
+}
+
+.contact-info-text {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* Download Section */
+.download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-lg);
+}
+
+.download-card {
+    background: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    transition: all 0.3s ease;
+}
+
+.download-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: var(--accent-green);
+}
+
+.download-icon {
+    width: 72px;
+    height: 72px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-green);
+    transition: all 0.3s ease;
+}
+
+.download-card:hover .download-icon {
+    background: rgba(26, 127, 55, 0.1);
+    border-color: var(--accent-green);
+    transform: scale(1.05);
+}
+
+.download-content {
+    flex: 1;
+}
+
+.download-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.download-description {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-sm);
+    font-size: 0.9375rem;
+}
+
+.download-meta {
+    display: flex;
+    gap: var(--spacing-sm);
+    font-size: 0.875rem;
+}
+
+.download-format {
+    font-family: var(--font-mono);
+    padding: 0.125rem 0.5rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.download-size {
+    color: var(--text-muted);
+}
+
+.download-card .btn {
+    width: 100%;
+    justify-content: center;
+}
+
+/* CTA Box */
+.cta-box {
+    background: var(--bg-card);
+    border: 2px solid var(--accent-green);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-xl);
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.cta-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.cta-text {
+    font-size: 1.0625rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--spacing-lg);
+}
+
+.cta-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-actions .btn {
+    min-width: 200px;
+}
+
+/* Animations */
+.contact-card {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.contact-card:nth-child(1) { animation-delay: 0.05s; }
+.contact-card:nth-child(2) { animation-delay: 0.1s; }
+.contact-card:nth-child(3) { animation-delay: 0.15s; }
+.contact-card:nth-child(4) { animation-delay: 0.2s; }
+.contact-card:nth-child(5) { animation-delay: 0.25s; }
+.contact-card:nth-child(6) { animation-delay: 0.3s; }
+
+.download-card {
+    animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.download-card:nth-child(1) { animation-delay: 0.4s; }
+.download-card:nth-child(2) { animation-delay: 0.5s; }
+
+.cta-box {
+    animation: fadeInUp 0.5s ease-out backwards;
+    animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .download-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .cta-box {
+        padding: var(--spacing-lg);
+    }
+    
+    .cta-title {
+        font-size: 1.5rem;
+    }
+    
+    .cta-actions {
+        flex-direction: column;
+    }
+    
+    .cta-actions .btn {
+        width: 100%;
+        min-width: 0;
+    }
+}
