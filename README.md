@@ -1,4 +1,3 @@
-# tom.github.io
-This repository acts as  GitHub for my  portfolio.
+# My portfolio
 
-I i'm work right now on the portfolio.
+This portfolio was created by Tom Daluzeau with Claude - Sonet 4.6.
