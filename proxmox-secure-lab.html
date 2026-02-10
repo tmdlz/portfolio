@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxmox Secure Lab — Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0e17;
+    color: #e2e8f0;
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    overflow-x: hidden;
+  }
+
+  .canvas {
+    width: 1080px;
+    max-width: 100%;
+    position: relative;
+  }
+
+  /* Subtle grid background */
+  .canvas::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ─── Header ─── */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header .badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #38bdf8;
+    background: rgba(56, 189, 248, 0.08);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    padding: 6px 20px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .header h1 {
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+    animation: fadeDown 0.8s ease 0.1s both;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: #64748b;
+    font-weight: 400;
+    animation: fadeDown 0.8s ease 0.2s both;
+  }
+
+  /* ─── Internet Node ─── */
+  .internet-node {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+    animation: fadeDown 0.8s ease 0.3s both;
+  }
+
+  .internet-box {
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+    border: 1px solid rgba(139, 92, 246, 0.3);
+    border-radius: 16px;
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    backdrop-filter: blur(10px);
+  }
+
+  .internet-box .icon {
+    font-size: 20px;
+  }
+
+  .internet-box span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: #a78bfa;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ─── Connector Lines ─── */
+  .connector {
+    display: flex;
+    justify-content: center;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .connector .line {
+    width: 2px;
+    height: 32px;
+    background: linear-gradient(to bottom, rgba(139, 92, 246, 0.4), rgba(56, 189, 248, 0.4));
+    border-radius: 2px;
+  }
+
+  .connector-horizontal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ─── Main PC Box ─── */
+  .pc-section {
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.8s ease 0.4s both;
+  }
+
+  .pc-box {
+    border: 1px solid rgba(56, 189, 248, 0.15);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
+    backdrop-filter: blur(20px);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pc-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+  }
+
+  .pc-box .pc-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+  }
+
+  .pc-box .pc-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.05));
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  .pc-box .pc-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #f1f5f9;
+  }
+
+  .pc-box .pc-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+
+  .pc-box .pc-specs {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #475569;
+    margin-top: 4px;
+    margin-bottom: 20px;
+    padding-left: 58px;
+  }
+
+  /* ─── pfSense ─── */
+  .pfsense-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .pfsense-box {
+    background: linear-gradient(135deg, rgba(251, 146, 60, 0.12), rgba(251, 146, 60, 0.03));
+    border: 1px solid rgba(251, 146, 60, 0.25);
+    border-radius: 14px;
+    padding: 12px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .pfsense-box .shield {
+    font-size: 18px;
+  }
+
+  .pfsense-box .label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #fb923c;
+  }
+
+  .pfsense-box .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #94a3b8;
+    background: rgba(251, 146, 60, 0.08);
+    padding: 3px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(251, 146, 60, 0.15);
+  }
+
+  /* ─── VLAN Grid ─── */
+  .vlan-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  .vlan-card {
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .vlan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+  }
+
+  .vlan-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+
+  /* VLAN 10 — Emerald */
+  .vlan-10 {
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  .vlan-10::before { background: linear-gradient(90deg, #10b981, #34d399); }
+  .vlan-10 .vlan-id { color: #34d399; }
+
+  /* VLAN 20 — Sky */
+  .vlan-20 {
+    background: linear-gradient(180deg, rgba(56, 189, 248, 0.1), rgba(56, 189, 248, 0.02));
+    border: 1px solid rgba(56, 189, 248, 0.2);
+  }
+  .vlan-20::before { background: linear-gradient(90deg, #38bdf8, #7dd3fc); }
+  .vlan-20 .vlan-id { color: #38bdf8; }
+
+  /* VLAN 30 — Violet */
+  .vlan-30 {
+    background: linear-gradient(180deg, rgba(167, 139, 250, 0.1), rgba(167, 139, 250, 0.02));
+    border: 1px solid rgba(167, 139, 250, 0.2);
+  }
+  .vlan-30::before { background: linear-gradient(90deg, #a78bfa, #c4b5fd); }
+  .vlan-30 .vlan-id { color: #a78bfa; }
+
+  /* VLAN 40 — Red */
+  .vlan-40 {
+    background: linear-gradient(180deg, rgba(248, 113, 113, 0.1), rgba(248, 113, 113, 0.02));
+    border: 1px solid rgba(248, 113, 113, 0.2);
+  }
+  .vlan-40::before { background: linear-gradient(90deg, #f87171, #fca5a5); }
+  .vlan-40 .vlan-id { color: #f87171; }
+
+  .vlan-card .vlan-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .vlan-card .vlan-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .vlan-card .vlan-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 2px;
+  }
+
+  .vlan-card .vlan-subnet {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #64748b;
+    margin-bottom: 12px;
+  }
+
+  .vlan-card .service {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .vlan-card .service:first-of-type {
+    border-top: none;
+  }
+
+  .service .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .vlan-10 .dot { background: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
+  .vlan-20 .dot { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+  .vlan-30 .dot { background: #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.4); }
+  .vlan-40 .dot { background: #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.4); }
+
+  .service .svc-name {
+    font-size: 12px;
+    color: #cbd5e1;
+    font-weight: 500;
+  }
+
+  .service .svc-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #475569;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* ─── NAS Section ─── */
+  .nas-connector {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .nas-connector .dashed-line {
+    width: 2px;
+    height: 40px;
+    background: repeating-linear-gradient(
+      to bottom,
+      rgba(251, 191, 36, 0.4) 0px,
+      rgba(251, 191, 36, 0.4) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+  }
+
+  .nas-section {
+    animation: fadeUp 0.8s ease 0.6s both;
+    position: relative;
+    z-index: 1;
+  }
+
+  .nas-box {
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(251, 191, 36, 0.06), rgba(15, 23, 42, 0.8));
+    backdrop-filter: blur(20px);
+    padding: 24px 28px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .nas-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+  }
+
+  .nas-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05));
+    border: 1px solid rgba(251, 191, 36, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .nas-info .nas-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fbbf24;
+    margin-bottom: 2px;
+  }
+
+  .nas-info .nas-desc {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #64748b;
+  }
+
+  .nas-tags {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .nas-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #fbbf24;
+    background: rgba(251, 191, 36, 0.08);
+    border: 1px solid rgba(251, 191, 36, 0.15);
+    padding: 4px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+  }
+
+  /* ─── Footer Legend ─── */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.8s ease 0.7s both;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #64748b;
+    letter-spacing: 0.5px;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .legend-dot.vm { background: #fb923c; box-shadow: 0 0 8px rgba(251, 146, 60, 0.4); }
+  .legend-dot.ct { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+
+  /* ─── RAM Badge ─── */
+  .ram-bar {
+    margin-top: 28px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 0.8s ease 0.8s both;
+  }
+
+  .ram-bar-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .ram-bar-label span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #64748b;
+  }
+
+  .ram-bar-label .used {
+    color: #38bdf8;
+    font-weight: 600;
+  }
+
+  .ram-track {
+    height: 10px;
+    background: rgba(30, 41, 59, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(56, 189, 248, 0.1);
+    display: flex;
+  }
+
+  .ram-segment {
+    height: 100%;
+    transition: width 1s ease;
+  }
+
+  .ram-pve   { background: #475569; width: 12.5%; }
+  .ram-fw    { background: #fb923c; width: 6.4%; }
+  .ram-nginx { background: #34d399; width: 3.2%; }
+  .ram-pg    { background: #38bdf8; width: 6.4%; }
+  .ram-mon   { background: #38bdf8; width: 6.4%; }
+  .ram-forge { background: #a78bfa; width: 4.8%; }
+  .ram-wood  { background: #a78bfa; width: 4.8%; }
+  .ram-reg   { background: #c4b5fd; width: 3.2%; }
+  .ram-free  { background: rgba(52, 211, 153, 0.15); flex: 1; }
+
+  .ram-labels {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .ram-label-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #64748b;
+  }
+
+  .ram-label-item .swatch {
+    width: 8px;
+    height: 8px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ─── Tailscale badge ─── */
+  .tailscale-badge {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #64748b;
+    background: rgba(30, 41, 59, 0.6);
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(100, 116, 139, 0.15);
+  }
+
+  .tailscale-badge .ts-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+    animation: pulse 2s infinite;
+  }
+
+  /* ─── Isolation warning ─── */
+  .isolation-badge {
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: #f87171;
+    letter-spacing: 0.5px;
+    opacity: 0.6;
+  }
+
+  /* ─── Floating Back Button ─── */
+  .back-btn {
+    position: fixed;
+    top: 24px;
+    left: 24px;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 12px;
+    color: #94a3b8;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .back-btn:hover {
+    color: #38bdf8;
+    border-color: rgba(56, 189, 248, 0.5);
+    transform: translateX(-4px);
+    box-shadow: 0 4px 32px rgba(56, 189, 248, 0.15);
+  }
+
+  .back-btn svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+
+  .back-btn:hover svg {
+    transform: translateX(-3px);
+  }
+
+  /* ─── Animations ─── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 700px) {
+    .vlan-grid { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 28px; }
+    .nas-box { flex-direction: column; text-align: center; }
+    .nas-tags { margin-left: 0; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating Back Button -->
+<a href="realisations.html" class="back-btn" onclick="history.back()">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+  </svg>
+  Retour
+</a>
+
+<div class="canvas">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="badge">Architecture Cible</div>
+    <h1>🔒 Proxmox Secure Lab</h1>
+    <p>Homelab sécurisé sur 2 laptops recyclés — Infrastructure segmentée & automatisée</p>
+  </div>
+
+  <!-- Internet -->
+  <div class="internet-node">
+    <div class="internet-box">
+      <span class="icon">🌐</span>
+      <span>Internet</span>
+    </div>
+  </div>
+
+  <div class="connector"><div class="line"></div></div>
+
+  <!-- PC 1 — Proxmox -->
+  <div class="pc-section">
+    <div class="pc-box">
+
+      <div class="tailscale-badge">
+        <div class="ts-dot"></div>
+        Tailscale VPN
+      </div>
+
+      <div class="pc-header">
+        <div class="pc-icon">🖥️</div>
+        <div>
+          <div class="pc-title">PC 1 — Proxmox VE 8.x</div>
+          <div class="pc-subtitle">Hyperviseur principal</div>
+        </div>
+      </div>
+      <div class="pc-specs">i5-8265U · 8 Go DDR4 · 250 Go SSD · ext4</div>
+
+      <!-- pfSense -->
+      <div class="pfsense-row">
+        <div class="pfsense-box">
+          <span class="shield">🛡️</span>
+          <span class="label">pfSense CE</span>
+          <span class="tag">VM · 512 Mo</span>
+          <span class="tag">Firewall / Router / DHCP / DNS</span>
+        </div>
+      </div>
+
+      <!-- VLANs -->
+      <div class="vlan-grid">
+
+        <!-- VLAN 10 -->
+        <div class="vlan-card vlan-10">
+          <div class="vlan-header">
+            <span class="vlan-id">VLAN 10</span>
+          </div>
+          <div class="vlan-name">Management</div>
+          <div class="vlan-subnet">10.10.10.0/24</div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">Proxmox Web UI</span>
+          </div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">SSH Access</span>
+          </div>
+        </div>
+
+        <!-- VLAN 20 -->
+        <div class="vlan-card vlan-20">
+          <div class="vlan-header">
+            <span class="vlan-id">VLAN 20</span>
+          </div>
+          <div class="vlan-name">Services</div>
+          <div class="vlan-subnet">10.10.20.0/24</div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">Nginx Proxy</span>
+            <span class="svc-type">CT</span>
+          </div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">PostgreSQL 16</span>
+            <span class="svc-type">CT</span>
+          </div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">VictoriaMetrics</span>
+            <span class="svc-type">CT</span>
+          </div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">Grafana</span>
+            <span class="svc-type">CT</span>
+          </div>
+        </div>
+
+        <!-- VLAN 30 -->
+        <div class="vlan-card vlan-30">
+          <div class="vlan-header">
+            <span class="vlan-id">VLAN 30</span>
+          </div>
+          <div class="vlan-name">CI / CD</div>
+          <div class="vlan-subnet">10.10.30.0/24</div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">Forgejo</span>
+            <span class="svc-type">CT</span>
+          </div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">Woodpecker CI</span>
+            <span class="svc-type">CT</span>
+          </div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">Docker Registry</span>
+            <span class="svc-type">CT</span>
+          </div>
+        </div>
+
+        <!-- VLAN 40 -->
+        <div class="vlan-card vlan-40">
+          <div class="vlan-header">
+            <span class="vlan-id">VLAN 40</span>
+          </div>
+          <div class="vlan-name">DMZ</div>
+          <div class="vlan-subnet">10.10.40.0/24</div>
+          <div class="service">
+            <div class="dot"></div>
+            <span class="svc-name">Kali Linux</span>
+            <span class="svc-type">VM</span>
+          </div>
+          <div class="isolation-badge">⛔ ISOLÉ — Internet only</div>
+        </div>
+
+      </div>
+
+      <!-- RAM Budget Bar -->
+      <div class="ram-bar">
+        <div class="ram-bar-label">
+          <span>RAM Budget (sans Kali)</span>
+          <span class="used">3,8 Go / 8 Go — <span style="color:#34d399">2,2 Go libre</span></span>
+        </div>
+        <div class="ram-track">
+          <div class="ram-segment ram-pve"></div>
+          <div class="ram-segment ram-fw"></div>
+          <div class="ram-segment ram-nginx"></div>
+          <div class="ram-segment ram-pg"></div>
+          <div class="ram-segment ram-mon"></div>
+          <div class="ram-segment ram-forge"></div>
+          <div class="ram-segment ram-wood"></div>
+          <div class="ram-segment ram-reg"></div>
+          <div class="ram-segment ram-free"></div>
+        </div>
+        <div class="ram-labels">
+          <div class="ram-label-item"><div class="swatch" style="background:#475569"></div>Proxmox 1G</div>
+          <div class="ram-label-item"><div class="swatch" style="background:#fb923c"></div>pfSense 512M</div>
+          <div class="ram-label-item"><div class="swatch" style="background:#34d399"></div>Nginx 256M</div>
+          <div class="ram-label-item"><div class="swatch" style="background:#38bdf8"></div>PG 512M</div>
+          <div class="ram-label-item"><div class="swatch" style="background:#38bdf8"></div>Monitoring 512M</div>
+          <div class="ram-label-item"><div class="swatch" style="background:#a78bfa"></div>Forgejo 384M</div>
+          <div class="ram-label-item"><div class="swatch" style="background:#a78bfa"></div>Woodpecker 384M</div>
+          <div class="ram-label-item"><div class="swatch" style="background:#c4b5fd"></div>Registry 256M</div>
+          <div class="ram-label-item"><div class="swatch" style="background:rgba(52,211,153,0.3)"></div>Libre 2,2G</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NAS Connector -->
+  <div class="nas-connector">
+    <div class="dashed-line"></div>
+  </div>
+
+  <!-- PC 2 — NAS -->
+  <div class="nas-section">
+    <div class="nas-box">
+      <div class="nas-icon">💾</div>
+      <div class="nas-info">
+        <div class="nas-title">PC 2 — NAS / Backup</div>
+        <div class="nas-desc">Debian 12 minimal · i5-5200U · 8 Go DDR3L · 1 To HDD</div>
+      </div>
+      <div class="nas-tags">
+        <span class="nas-tag">NFS</span>
+        <span class="nas-tag">rsync + GPG</span>
+        <span class="nas-tag">vzdump</span>
+        <span class="nas-tag">pg_dump</span>
+        <span class="nas-tag">SMART</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot vm"></div>
+      VM (kernel complet)
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot ct"></div>
+      Container LXC (léger)
+    </div>
+    <div class="legend-item">
+      🔐 Fail2ban + UFW + MFA
+    </div>
+    <div class="legend-item">
+      📦 Ansible + Bash IaC
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
