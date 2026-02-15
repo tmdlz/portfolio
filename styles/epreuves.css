@@ -154,6 +154,29 @@
     background: rgba(225, 29, 72, 0.06);
 }
 
+/* Google Sheets embed */
+.sheet-embed {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-bottom: var(--spacing-md);
+    background: #fff;
+}
+
+.sheet-embed iframe {
+    display: block;
+    width: 100%;
+    min-height: 500px;
+    border: none;
+}
+
+.sheet-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-md);
+}
+
 /* Documents download list */
 .documents-list {
     display: flex;
