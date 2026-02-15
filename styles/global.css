@@ -121,7 +121,8 @@ body {
    =========================== */
 .navbar {
     background: var(--bg-light);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid transparent;
+    border-image: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-purple)) 1;
     padding: var(--spacing-md) 0;
     position: sticky;
     top: 0;
@@ -195,25 +196,31 @@ body {
 
 /* Dark Mode Toggle */
 .theme-toggle {
-    background: none;
-    border: none;
+    background: var(--bg-card);
+    border: 2px solid var(--border);
     cursor: pointer;
     padding: 0.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-md);
-    transition: background 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .theme-toggle:hover {
-    background: var(--bg-card);
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+}
+
+.theme-toggle:hover svg {
+    fill: white;
 }
 
 .theme-toggle svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--text-primary);
+    width: 22px;
+    height: 22px;
+    fill: var(--accent-green);
+    transition: fill 0.3s ease;
 }
 
 .theme-toggle .sun-icon {
@@ -260,7 +267,8 @@ body {
    =========================== */
 .footer {
     background: var(--bg-card);
-    border-top: 1px solid var(--border);
+    border-top: 2px solid transparent;
+    border-image: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-purple)) 1;
     padding: var(--spacing-xl) 0 var(--spacing-lg);
     margin-top: var(--spacing-xl);
 }
@@ -357,6 +365,10 @@ body {
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: var(--spacing-xs);
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-green) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .section-subtitle {
@@ -367,6 +379,7 @@ body {
 .card {
     background: var(--bg-light);
     border: 1px solid var(--border);
+    border-left: 3px solid var(--accent-green);
     border-radius: var(--radius-lg);
     padding: var(--spacing-lg);
     transition: all 0.3s ease;
@@ -375,6 +388,7 @@ body {
 .card:hover {
     box-shadow: var(--shadow-md);
     transform: translateY(-2px);
+    border-left-color: var(--accent-blue);
 }
 
 /* ===========================
@@ -414,7 +428,7 @@ body {
 .terminal-title {
     font-family: var(--font-mono);
     font-size: 0.875rem;
-    color: var(--text-secondary);
+    color: var(--accent-green);
     margin-left: 0.5rem;
 }
 
@@ -465,10 +479,16 @@ body {
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     padding: 0.25rem 0.625rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
+    background: rgba(9, 105, 218, 0.06);
+    border: 1px solid rgba(9, 105, 218, 0.2);
     border-radius: var(--radius-sm);
-    color: var(--text-secondary);
+    color: var(--accent-blue);
+    transition: all 0.2s ease;
+}
+
+.tech-tag:hover {
+    background: rgba(9, 105, 218, 0.12);
+    border-color: var(--accent-blue);
 }
 
 /* ===========================
@@ -535,3 +555,37 @@ body {
 .mt-md { margin-top: var(--spacing-md); }
 .mt-lg { margin-top: var(--spacing-lg); }
 .mt-xl { margin-top: var(--spacing-xl); }
+
+/* ===========================
+   BACKGROUND PATTERNS
+   =========================== */
+.page-bg-pattern {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.09;
+    background-repeat: repeat;
+    animation: bgPatternDrift 25s ease-in-out infinite;
+}
+
+[data-theme="dark"] .page-bg-pattern {
+    opacity: 0.14;
+}
+
+@keyframes bgPatternDrift {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-20px, -20px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-bg-pattern {
+        animation: none;
+    }
+}
+
+/* Content above pattern */
+.section, .hero, .footer {
+    position: relative;
+    z-index: 1;
+}

@@ -2,6 +2,12 @@
    PAGE D'ACCUEIL - STYLES
    =========================== */
 
+/* Background pattern — Code symbols: </>, {}, ~$ */
+.page-bg-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cpath d='M25 40L15 50L25 60' stroke='%231a7f37' fill='none' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M45 40L55 50L45 60' stroke='%231a7f37' fill='none' stroke-width='3' stroke-linecap='round'/%3E%3Cline x1='33' y1='33' x2='37' y2='67' stroke='%231a7f37' stroke-width='2.5' stroke-linecap='round'/%3E%3Cpath d='M110 35Q103 35 103 45Q103 50 98 53Q103 56 103 63Q103 73 110 73' stroke='%230969da' fill='none' stroke-width='3'/%3E%3Cpath d='M130 35Q137 35 137 45Q137 50 142 53Q137 56 137 63Q137 73 130 73' stroke='%230969da' fill='none' stroke-width='3'/%3E%3Cpath d='M40 130Q48 120 56 130' stroke='%238250df' fill='none' stroke-width='3' stroke-linecap='round'/%3E%3Cline x1='62' y1='124' x2='62' y2='138' stroke='%238250df' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+
 /* Hero Section */
 .hero {
     padding: var(--spacing-xl) 0;

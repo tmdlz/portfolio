@@ -10,6 +10,7 @@
     <script src="scripts/theme-toggle.js"></script>
 </head>
 <body>
+    <div class="page-bg-pattern"></div>
     <!-- NAVIGATION -->
     <nav class="navbar">
         <div class="container">
@@ -145,6 +146,16 @@
                     </div>
                     <p class="source-card-desc">KubeCon, DockerCon, FOSDEM — Replays de conférences et chaînes YouTube techniques (TechWorld with Nana, Xavki).</p>
                 </div>
+                <div class="source-card">
+                    <div class="source-card-header">
+                        <div class="source-card-icon">📘</div>
+                        <div>
+                            <div class="source-card-title">Blog Stéphane Robert</div>
+                            <div class="source-card-type">Blog éducatif</div>
+                        </div>
+                    </div>
+                    <p class="source-card-desc">Plus de 1 000 pages gratuites sur le DevSecOps : Docker, Kubernetes, Ansible, Terraform, CI/CD — contenu francophone pédagogique et accessible.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -158,104 +169,104 @@
             </div>
             <div class="articles-list">
 
-                <a href="https://kubernetes.io/blog/2025/04/23/kubernetes-v1-33-release/" target="_blank" rel="noopener" class="article-card">
+                <a href="https://blog.stephane-robert.info/docs/conteneurs/docker/introduction/" target="_blank" rel="noopener" class="article-card">
                     <div class="article-meta">
                         <span class="article-date">Fév. 2026</span>
-                        <span class="article-tag">Kubernetes</span>
-                    </div>
-                    <h3 class="article-title">Kubernetes 1.32 : les nouvelles fonctionnalités de sidecar containers en GA</h3>
-                    <p class="article-summary">La version 1.32 de Kubernetes stabilise les sidecar containers natifs, simplifiant les architectures de service mesh et de logging. Cette fonctionnalité permet de gérer le cycle de vie des conteneurs auxiliaires directement dans le pod, sans recourir à des solutions tierces.</p>
-                    <div class="article-source">📎 Source : Kubernetes Blog</div>
-                </a>
-
-                <a href="https://www.docker.com/blog/docker-desktop-4-37/" target="_blank" rel="noopener" class="article-card">
-                    <div class="article-meta">
-                        <span class="article-date">Jan. 2026</span>
                         <span class="article-tag">Docker</span>
                     </div>
-                    <h3 class="article-title">Docker Desktop 4.37 : builds multi-plateformes et intégration IA</h3>
-                    <p class="article-summary">Docker Desktop intègre désormais un assistant IA pour la génération de Dockerfiles et l'optimisation des images. Les builds multi-plateformes (ARM64/AMD64) sont simplifiés, répondant à la montée en puissance des architectures ARM en cloud.</p>
+                    <h3 class="article-title">Qu'est-ce que Docker ? Comprendre les conteneurs</h3>
+                    <p class="article-summary">Article pédagogique qui explique le concept de conteneurisation : pourquoi Docker a révolutionné le déploiement d'applications, la différence entre conteneur et machine virtuelle, et comment créer son premier conteneur avec un Dockerfile simple.</p>
+                    <div class="article-source">📎 Source : blog.stephane-robert.info</div>
+                </a>
+
+                <a href="https://blog.stephane-robert.info/docs/orchestrateurs/kubernetes/introduction/" target="_blank" rel="noopener" class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Jan. 2026</span>
+                        <span class="article-tag">Kubernetes</span>
+                    </div>
+                    <h3 class="article-title">Introduction à Kubernetes : pourquoi orchestrer ses conteneurs</h3>
+                    <p class="article-summary">Quand on a des dizaines de conteneurs Docker à gérer, il faut un outil pour les orchestrer. Cet article introduit Kubernetes, ses concepts de base (pods, services, deployments) et explique pourquoi il est devenu le standard de l'industrie.</p>
+                    <div class="article-source">📎 Source : blog.stephane-robert.info</div>
+                </a>
+
+                <a href="https://blog.stephane-robert.info/docs/infra-as-code/gestion-de-configuration/ansible/introduction/" target="_blank" rel="noopener" class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Déc. 2025</span>
+                        <span class="article-tag">IaC</span>
+                    </div>
+                    <h3 class="article-title">Les bases de l'Infrastructure as Code avec Ansible</h3>
+                    <p class="article-summary">Ansible permet d'automatiser la configuration de serveurs sans installer d'agent. Cet article explique les principes de l'Infrastructure as Code, le fonctionnement des playbooks Ansible et montre comment automatiser l'installation d'un serveur web en quelques lignes YAML.</p>
+                    <div class="article-source">📎 Source : blog.stephane-robert.info</div>
+                </a>
+
+                <a href="https://www.docker.com/blog/dockercon-2025-recap/" target="_blank" rel="noopener" class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Nov. 2025</span>
+                        <span class="article-tag">Docker</span>
+                    </div>
+                    <h3 class="article-title">DockerCon 2025 : les annonces clés</h3>
+                    <p class="article-summary">Résumé des annonces majeures de la conférence DockerCon 2025 : nouvelles fonctionnalités de Docker Desktop, intégration de l'IA dans les workflows de développement, et améliorations des builds multi-plateformes pour les architectures ARM.</p>
                     <div class="article-source">📎 Source : Docker Blog</div>
                 </a>
 
-                <a href="https://thenewstack.io/scan-container-images-for-vulnerabilities-with-grype/" target="_blank" rel="noopener" class="article-card">
-                    <div class="article-meta">
-                        <span class="article-date">Déc. 2025</span>
-                        <span class="article-tag">Sécurité</span>
-                    </div>
-                    <h3 class="article-title">CVE critiques dans les images de base : l'importance du scanning continu</h3>
-                    <p class="article-summary">Plusieurs CVE critiques ont été découvertes dans des images Docker officielles (Alpine, Debian). Cet article rappelle l'importance d'intégrer des outils de scanning (Trivy, Grype) dans les pipelines CI/CD pour détecter les vulnérabilités avant le déploiement en production.</p>
-                    <div class="article-source">📎 Source : The New Stack</div>
-                </a>
-
-                <a href="https://www.hashicorp.com/en/blog/terraform-1-10-improves-handling-secrets-in-state-with-ephemeral-values" target="_blank" rel="noopener" class="article-card">
-                    <div class="article-meta">
-                        <span class="article-date">Nov. 2025</span>
-                        <span class="article-tag">IaC</span>
-                    </div>
-                    <h3 class="article-title">Terraform 1.10 : gestion des secrets et state amélioré</h3>
-                    <p class="article-summary">HashiCorp annonce Terraform 1.10 avec l'import automatique de ressources existantes dans le state, facilitant l'adoption d'Infrastructure as Code sur des infrastructures legacy. La gestion du state distant est également renforcée avec de nouvelles options de locking.</p>
-                    <div class="article-source">📎 Source : HashiCorp Blog</div>
-                </a>
-
-                <a href="https://www.usine-digitale.fr/article/cloud-souverain-scaleway-entame-le-processus-de-qualification-secnumcloud-objectif-fin-2025.N2225244" target="_blank" rel="noopener" class="article-card">
+                <a href="https://docs.github.com/fr/actions/quickstart" target="_blank" rel="noopener" class="article-card">
                     <div class="article-meta">
                         <span class="article-date">Oct. 2025</span>
-                        <span class="article-tag">Cloud</span>
-                    </div>
-                    <h3 class="article-title">L'essor des solutions cloud souveraines en Europe</h3>
-                    <p class="article-summary">Face aux enjeux de souveraineté numérique, plusieurs acteurs européens (OVHcloud, Scaleway, Infomaniak) accélèrent le développement de solutions Kubernetes managées conformes au RGPD. Le label SecNumCloud de l'ANSSI devient un critère de choix pour les administrations françaises.</p>
-                    <div class="article-source">📎 Source : L'Usine Digitale</div>
-                </a>
-
-                <a href="https://devops.com/why-gitops-might-be-the-future-of-devops-trends-and-predictions-for-2025-and-beyond/" target="_blank" rel="noopener" class="article-card">
-                    <div class="article-meta">
-                        <span class="article-date">Sept. 2025</span>
-                        <span class="article-tag">DevOps</span>
-                    </div>
-                    <h3 class="article-title">GitOps : Flux CD vs ArgoCD, quel outil choisir en 2025 ?</h3>
-                    <p class="article-summary">Comparatif des deux principaux outils GitOps pour Kubernetes. ArgoCD domine en popularité grâce à son interface graphique, tandis que Flux CD séduit par son approche déclarative et son intégration native avec les outils CNCF.</p>
-                    <div class="article-source">📎 Source : DevOps.com</div>
-                </a>
-
-                <a href="https://www.redhat.com/en/blog/podman-50-unveiled" target="_blank" rel="noopener" class="article-card">
-                    <div class="article-meta">
-                        <span class="article-date">Juil. 2025</span>
-                        <span class="article-tag">Conteneurs</span>
-                    </div>
-                    <h3 class="article-title">Podman 5.0 : alternative rootless à Docker en entreprise</h3>
-                    <p class="article-summary">Podman 5.0 renforce son positionnement comme alternative sans démon à Docker. L'exécution rootless par défaut améliore la sécurité, et la compatibilité Docker Compose est désormais quasi-complète. Red Hat pousse son adoption dans les environnements RHEL.</p>
-                    <div class="article-source">📎 Source : Red Hat Blog</div>
-                </a>
-
-                <a href="https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/about-self-hosted-runners" target="_blank" rel="noopener" class="article-card">
-                    <div class="article-meta">
-                        <span class="article-date">Mai 2025</span>
                         <span class="article-tag">CI/CD</span>
                     </div>
-                    <h3 class="article-title">GitHub Actions : les runners auto-hébergés pour réduire les coûts</h3>
-                    <p class="article-summary">Guide pratique sur la mise en place de runners GitHub Actions auto-hébergés sur une infrastructure on-premise. Cette approche permet de réduire les coûts CI/CD tout en gardant le contrôle sur l'environnement d'exécution et les données sensibles.</p>
+                    <h3 class="article-title">Premiers pas avec GitHub Actions</h3>
+                    <p class="article-summary">Guide officiel pour débuter avec GitHub Actions : créer son premier workflow CI/CD, comprendre les fichiers YAML de configuration, et automatiser les tests et le déploiement de son code à chaque push sur un dépôt GitHub.</p>
                     <div class="article-source">📎 Source : GitHub Docs</div>
                 </a>
 
                 <a href="https://www.cncf.io/projects/k3s/" target="_blank" rel="noopener" class="article-card">
                     <div class="article-meta">
-                        <span class="article-date">Mars 2025</span>
+                        <span class="article-date">Sept. 2025</span>
                         <span class="article-tag">Kubernetes</span>
                     </div>
-                    <h3 class="article-title">K3s : Kubernetes léger pour le edge computing et les homelabs</h3>
-                    <p class="article-summary">K3s de Rancher s'impose comme la solution Kubernetes légère de référence pour les environnements à ressources limitées. Avec moins de 512 Mo de RAM nécessaires, il est idéal pour les homelabs, les Raspberry Pi et le edge computing.</p>
+                    <h3 class="article-title">K3s : Kubernetes léger pour les homelabs</h3>
+                    <p class="article-summary">K3s de Rancher est une distribution Kubernetes légère qui fonctionne avec moins de 512 Mo de RAM. Idéal pour les homelabs et les Raspberry Pi, il permet d'apprendre Kubernetes sans avoir besoin d'une infrastructure coûteuse.</p>
                     <div class="article-source">📎 Source : CNCF</div>
                 </a>
 
-                <a href="https://www.cncf.io/blog/2022/04/12/a-map-for-kubernetes-supply-chain-security/" target="_blank" rel="noopener" class="article-card">
+                <a href="https://www.redhat.com/en/topics/containers/what-is-podman" target="_blank" rel="noopener" class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Juil. 2025</span>
+                        <span class="article-tag">Conteneurs</span>
+                    </div>
+                    <h3 class="article-title">Podman vs Docker : quelle différence ?</h3>
+                    <p class="article-summary">Podman est une alternative à Docker développée par Red Hat. Contrairement à Docker, Podman fonctionne sans démon (daemon) et peut exécuter des conteneurs sans droits root, ce qui améliore la sécurité. L'article compare les deux outils et leurs cas d'usage.</p>
+                    <div class="article-source">📎 Source : Red Hat</div>
+                </a>
+
+                <a href="https://www.usine-digitale.fr/article/cloud-souverain-scaleway-entame-le-processus-de-qualification-secnumcloud-objectif-fin-2025.N2225244" target="_blank" rel="noopener" class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Mai 2025</span>
+                        <span class="article-tag">Cloud</span>
+                    </div>
+                    <h3 class="article-title">Le cloud souverain en France : enjeux et acteurs</h3>
+                    <p class="article-summary">Face à la domination des géants américains (AWS, Azure, GCP), la France développe des solutions cloud souveraines. OVHcloud, Scaleway et Infomaniak proposent des hébergements conformes au RGPD. Le label SecNumCloud de l'ANSSI garantit un niveau de sécurité élevé.</p>
+                    <div class="article-source">📎 Source : L'Usine Digitale</div>
+                </a>
+
+                <a href="https://blog.stephane-robert.info/docs/infra-as-code/provisionnement/terraform/introduction/" target="_blank" rel="noopener" class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Mars 2025</span>
+                        <span class="article-tag">IaC</span>
+                    </div>
+                    <h3 class="article-title">Terraform pour les débutants : créer son infrastructure en code</h3>
+                    <p class="article-summary">Terraform permet de décrire son infrastructure (serveurs, réseaux, bases de données) sous forme de code. Cet article explique le langage HCL, les commandes de base (init, plan, apply) et montre comment provisionner une machine virtuelle automatiquement.</p>
+                    <div class="article-source">📎 Source : blog.stephane-robert.info</div>
+                </a>
+
+                <a href="https://blog.stephane-robert.info/docs/conteneurs/docker/securite/" target="_blank" rel="noopener" class="article-card">
                     <div class="article-meta">
                         <span class="article-date">Jan. 2025</span>
                         <span class="article-tag">Sécurité</span>
                     </div>
-                    <h3 class="article-title">Supply chain attacks : sécuriser la chaîne de build des conteneurs</h3>
-                    <p class="article-summary">Les attaques de supply chain ciblant les images Docker et les registries se multiplient. L'article détaille les bonnes pratiques : signature d'images (Cosign/Sigstore), SBOM (Software Bill of Materials) et politiques d'admission Kubernetes.</p>
-                    <div class="article-source">📎 Source : CNCF Blog</div>
+                    <h3 class="article-title">Sécurité des conteneurs : les bonnes pratiques</h3>
+                    <p class="article-summary">Les conteneurs ne sont pas sécurisés par défaut. Cet article présente les bonnes pratiques essentielles : utiliser des images officielles et à jour, ne pas exécuter en root, scanner les vulnérabilités avec Trivy, et limiter les permissions avec les security contexts.</p>
+                    <div class="article-source">📎 Source : blog.stephane-robert.info</div>
                 </a>
 
             </div>
