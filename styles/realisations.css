@@ -118,6 +118,12 @@
     color: var(--text-muted);
 }
 
+.status-done {
+    background: rgba(9, 105, 218, 0.1);
+    border: 1px solid var(--accent-blue);
+    color: var(--accent-blue);
+}
+
 /* Project Content */
 .project-title {
     font-size: 1.375rem;

@@ -1,906 +1,1067 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proxmox Secure Lab — Architecture</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: #0a0e17;
-    color: #e2e8f0;
-    font-family: 'Outfit', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
-    overflow-x: hidden;
-  }
-
-  .canvas {
-    width: 1080px;
-    max-width: 100%;
-    position: relative;
-  }
-
-  /* Subtle grid background */
-  .canvas::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ─── Header ─── */
-  .header {
-    text-align: center;
-    margin-bottom: 48px;
-    position: relative;
-    z-index: 1;
-  }
-
-  .header .badge {
-    display: inline-block;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: #38bdf8;
-    background: rgba(56, 189, 248, 0.08);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    padding: 6px 20px;
-    border-radius: 100px;
-    margin-bottom: 20px;
-    animation: fadeDown 0.8s ease both;
-  }
-
-  .header h1 {
-    font-size: 42px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 8px;
-    animation: fadeDown 0.8s ease 0.1s both;
-  }
-
-  .header p {
-    font-size: 15px;
-    color: #64748b;
-    font-weight: 400;
-    animation: fadeDown 0.8s ease 0.2s both;
-  }
-
-  /* ─── Internet Node ─── */
-  .internet-node {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 24px;
-    position: relative;
-    z-index: 1;
-    animation: fadeDown 0.8s ease 0.3s both;
-  }
-
-  .internet-box {
-    background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
-    border: 1px solid rgba(139, 92, 246, 0.3);
-    border-radius: 16px;
-    padding: 14px 32px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    backdrop-filter: blur(10px);
-  }
-
-  .internet-box .icon {
-    font-size: 20px;
-  }
-
-  .internet-box span {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    font-weight: 600;
-    color: #a78bfa;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  /* ─── Connector Lines ─── */
-  .connector {
-    display: flex;
-    justify-content: center;
-    margin: 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  .connector .line {
-    width: 2px;
-    height: 32px;
-    background: linear-gradient(to bottom, rgba(139, 92, 246, 0.4), rgba(56, 189, 248, 0.4));
-    border-radius: 2px;
-  }
-
-  .connector-horizontal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 12px 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ─── Main PC Box ─── */
-  .pc-section {
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.8s ease 0.4s both;
-  }
-
-  .pc-box {
-    border: 1px solid rgba(56, 189, 248, 0.15);
-    border-radius: 24px;
-    background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
-    backdrop-filter: blur(20px);
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .pc-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
-  }
-
-  .pc-box .pc-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 6px;
-  }
-
-  .pc-box .pc-icon {
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.05));
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-  }
-
-  .pc-box .pc-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #f1f5f9;
-  }
-
-  .pc-box .pc-subtitle {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #64748b;
-    margin-top: 2px;
-  }
-
-  .pc-box .pc-specs {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #475569;
-    margin-top: 4px;
-    margin-bottom: 20px;
-    padding-left: 58px;
-  }
-
-  /* ─── pfSense ─── */
-  .pfsense-row {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-
-  .pfsense-box {
-    background: linear-gradient(135deg, rgba(251, 146, 60, 0.12), rgba(251, 146, 60, 0.03));
-    border: 1px solid rgba(251, 146, 60, 0.25);
-    border-radius: 14px;
-    padding: 12px 28px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .pfsense-box .shield {
-    font-size: 18px;
-  }
-
-  .pfsense-box .label {
-    font-weight: 600;
-    font-size: 14px;
-    color: #fb923c;
-  }
-
-  .pfsense-box .tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: #94a3b8;
-    background: rgba(251, 146, 60, 0.08);
-    padding: 3px 8px;
-    border-radius: 6px;
-    border: 1px solid rgba(251, 146, 60, 0.15);
-  }
-
-  /* ─── VLAN Grid ─── */
-  .vlan-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-
-  .vlan-card {
-    border-radius: 16px;
-    padding: 16px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  .vlan-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-  }
-
-  .vlan-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    border-radius: 16px 16px 0 0;
-  }
-
-  /* VLAN 10 — Emerald */
-  .vlan-10 {
-    background: linear-gradient(180deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
-    border: 1px solid rgba(16, 185, 129, 0.2);
-  }
-  .vlan-10::before { background: linear-gradient(90deg, #10b981, #34d399); }
-  .vlan-10 .vlan-id { color: #34d399; }
-
-  /* VLAN 20 — Sky */
-  .vlan-20 {
-    background: linear-gradient(180deg, rgba(56, 189, 248, 0.1), rgba(56, 189, 248, 0.02));
-    border: 1px solid rgba(56, 189, 248, 0.2);
-  }
-  .vlan-20::before { background: linear-gradient(90deg, #38bdf8, #7dd3fc); }
-  .vlan-20 .vlan-id { color: #38bdf8; }
-
-  /* VLAN 30 — Violet */
-  .vlan-30 {
-    background: linear-gradient(180deg, rgba(167, 139, 250, 0.1), rgba(167, 139, 250, 0.02));
-    border: 1px solid rgba(167, 139, 250, 0.2);
-  }
-  .vlan-30::before { background: linear-gradient(90deg, #a78bfa, #c4b5fd); }
-  .vlan-30 .vlan-id { color: #a78bfa; }
-
-  /* VLAN 40 — Red */
-  .vlan-40 {
-    background: linear-gradient(180deg, rgba(248, 113, 113, 0.1), rgba(248, 113, 113, 0.02));
-    border: 1px solid rgba(248, 113, 113, 0.2);
-  }
-  .vlan-40::before { background: linear-gradient(90deg, #f87171, #fca5a5); }
-  .vlan-40 .vlan-id { color: #f87171; }
-
-  .vlan-card .vlan-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-
-  .vlan-card .vlan-id {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1px;
-  }
-
-  .vlan-card .vlan-name {
-    font-size: 15px;
-    font-weight: 700;
-    color: #f1f5f9;
-    margin-bottom: 2px;
-  }
-
-  .vlan-card .vlan-subnet {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: #64748b;
-    margin-bottom: 12px;
-  }
-
-  .vlan-card .service {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 0;
-    border-top: 1px solid rgba(255,255,255,0.04);
-  }
-
-  .vlan-card .service:first-of-type {
-    border-top: none;
-  }
-
-  .service .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  .vlan-10 .dot { background: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
-  .vlan-20 .dot { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
-  .vlan-30 .dot { background: #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.4); }
-  .vlan-40 .dot { background: #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.4); }
-
-  .service .svc-name {
-    font-size: 12px;
-    color: #cbd5e1;
-    font-weight: 500;
-  }
-
-  .service .svc-type {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: #475569;
-    margin-left: auto;
-    flex-shrink: 0;
-  }
-
-  /* ─── NAS Section ─── */
-  .nas-connector {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    position: relative;
-    z-index: 1;
-  }
-
-  .nas-connector .dashed-line {
-    width: 2px;
-    height: 40px;
-    background: repeating-linear-gradient(
-      to bottom,
-      rgba(251, 191, 36, 0.4) 0px,
-      rgba(251, 191, 36, 0.4) 6px,
-      transparent 6px,
-      transparent 12px
-    );
-  }
-
-  .nas-section {
-    animation: fadeUp 0.8s ease 0.6s both;
-    position: relative;
-    z-index: 1;
-  }
-
-  .nas-box {
-    border: 1px solid rgba(251, 191, 36, 0.2);
-    border-radius: 20px;
-    background: linear-gradient(180deg, rgba(251, 191, 36, 0.06), rgba(15, 23, 42, 0.8));
-    backdrop-filter: blur(20px);
-    padding: 24px 28px;
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .nas-box::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
-  }
-
-  .nas-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05));
-    border: 1px solid rgba(251, 191, 36, 0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    flex-shrink: 0;
-  }
-
-  .nas-info .nas-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #fbbf24;
-    margin-bottom: 2px;
-  }
-
-  .nas-info .nas-desc {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #64748b;
-  }
-
-  .nas-tags {
-    display: flex;
-    gap: 8px;
-    margin-left: auto;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  .nas-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: #fbbf24;
-    background: rgba(251, 191, 36, 0.08);
-    border: 1px solid rgba(251, 191, 36, 0.15);
-    padding: 4px 10px;
-    border-radius: 8px;
-    white-space: nowrap;
-  }
-
-  /* ─── Footer Legend ─── */
-  .legend {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-top: 32px;
-    flex-wrap: wrap;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.8s ease 0.7s both;
-  }
-
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: #64748b;
-    letter-spacing: 0.5px;
-  }
-
-  .legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-  }
-
-  .legend-dot.vm { background: #fb923c; box-shadow: 0 0 8px rgba(251, 146, 60, 0.4); }
-  .legend-dot.ct { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
-
-  /* ─── RAM Badge ─── */
-  .ram-bar {
-    margin-top: 28px;
-    position: relative;
-    z-index: 1;
-    animation: fadeUp 0.8s ease 0.8s both;
-  }
-
-  .ram-bar-label {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-  }
-
-  .ram-bar-label span {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: #64748b;
-  }
-
-  .ram-bar-label .used {
-    color: #38bdf8;
-    font-weight: 600;
-  }
-
-  .ram-track {
-    height: 10px;
-    background: rgba(30, 41, 59, 0.8);
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid rgba(56, 189, 248, 0.1);
-    display: flex;
-  }
-
-  .ram-segment {
-    height: 100%;
-    transition: width 1s ease;
-  }
-
-  .ram-pve   { background: #475569; width: 12.5%; }
-  .ram-fw    { background: #fb923c; width: 6.4%; }
-  .ram-nginx { background: #34d399; width: 3.2%; }
-  .ram-pg    { background: #38bdf8; width: 6.4%; }
-  .ram-mon   { background: #38bdf8; width: 6.4%; }
-  .ram-forge { background: #a78bfa; width: 4.8%; }
-  .ram-wood  { background: #a78bfa; width: 4.8%; }
-  .ram-reg   { background: #c4b5fd; width: 3.2%; }
-  .ram-free  { background: rgba(52, 211, 153, 0.15); flex: 1; }
-
-  .ram-labels {
-    display: flex;
-    gap: 12px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .ram-label-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: #64748b;
-  }
-
-  .ram-label-item .swatch {
-    width: 8px;
-    height: 8px;
-    border-radius: 3px;
-    flex-shrink: 0;
-  }
-
-  /* ─── Tailscale badge ─── */
-  .tailscale-badge {
-    position: absolute;
-    top: 28px;
-    right: 28px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: #64748b;
-    background: rgba(30, 41, 59, 0.6);
-    padding: 5px 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(100, 116, 139, 0.15);
-  }
-
-  .tailscale-badge .ts-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #34d399;
-    box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
-    animation: pulse 2s infinite;
-  }
-
-  /* ─── Isolation warning ─── */
-  .isolation-badge {
-    position: absolute;
-    bottom: 8px;
-    right: 16px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
-    color: #f87171;
-    letter-spacing: 0.5px;
-    opacity: 0.6;
-  }
-
-  /* ─── Floating Back Button ─── */
-  .back-btn {
-    position: fixed;
-    top: 24px;
-    left: 24px;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(16px);
-    border: 1px solid rgba(56, 189, 248, 0.2);
-    border-radius: 12px;
-    color: #94a3b8;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
-  }
-
-  .back-btn:hover {
-    color: #38bdf8;
-    border-color: rgba(56, 189, 248, 0.5);
-    transform: translateX(-4px);
-    box-shadow: 0 4px 32px rgba(56, 189, 248, 0.15);
-  }
-
-  .back-btn svg {
-    width: 16px;
-    height: 16px;
-    transition: transform 0.3s ease;
-  }
-
-  .back-btn:hover svg {
-    transform: translateX(-3px);
-  }
-
-  /* ─── Animations ─── */
-  @keyframes fadeDown {
-    from { opacity: 0; transform: translateY(-16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  /* ─── Responsive ─── */
-  @media (max-width: 700px) {
-    .vlan-grid { grid-template-columns: repeat(2, 1fr); }
-    .header h1 { font-size: 28px; }
-    .nas-box { flex-direction: column; text-align: center; }
-    .nas-tags { margin-left: 0; justify-content: center; }
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Proxmox Secure Lab - Infrastructure virtualisée sécurisée sur homelab">
+    <title>Proxmox Secure Lab | Tom Daluzeau</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/proxmox-secure-lab.css">
+    <script src="scripts/theme-toggle.js"></script>
+    <style>
+    /* ─── Diagram scoped styles ─── */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+    .diagram-container .canvas {
+        width: 1080px;
+        max-width: 100%;
+        position: relative;
+        margin: 0 auto;
+    }
+
+    .diagram-container .canvas::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .diagram-container .header {
+        text-align: center;
+        margin-bottom: 48px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .diagram-container .header .badge {
+        display: inline-block;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #38bdf8;
+        background: rgba(56, 189, 248, 0.08);
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        padding: 6px 20px;
+        border-radius: 100px;
+        margin-bottom: 20px;
+        animation: diagramFadeDown 0.8s ease both;
+    }
+
+    .diagram-container .header h1 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 42px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+        animation: diagramFadeDown 0.8s ease 0.1s both;
+    }
+
+    .diagram-container .header p {
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px;
+        color: #64748b;
+        font-weight: 400;
+        animation: diagramFadeDown 0.8s ease 0.2s both;
+    }
+
+    .diagram-container .internet-node {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 24px;
+        position: relative;
+        z-index: 1;
+        animation: diagramFadeDown 0.8s ease 0.3s both;
+    }
+
+    .diagram-container .internet-box {
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05));
+        border: 1px solid rgba(139, 92, 246, 0.3);
+        border-radius: 16px;
+        padding: 14px 32px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        backdrop-filter: blur(10px);
+    }
+
+    .diagram-container .internet-box .icon { font-size: 20px; }
+
+    .diagram-container .internet-box span {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        font-weight: 600;
+        color: #a78bfa;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .diagram-container .connector {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .diagram-container .connector .line {
+        width: 2px;
+        height: 32px;
+        background: linear-gradient(to bottom, rgba(139, 92, 246, 0.4), rgba(56, 189, 248, 0.4));
+        border-radius: 2px;
+    }
+
+    .diagram-container .pc-section {
+        position: relative;
+        z-index: 1;
+        animation: diagramFadeUp 0.8s ease 0.4s both;
+    }
+
+    .diagram-container .pc-box {
+        border: 1px solid rgba(56, 189, 248, 0.15);
+        border-radius: 24px;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.8));
+        backdrop-filter: blur(20px);
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .diagram-container .pc-box::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+    }
+
+    .diagram-container .pc-box .pc-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 6px;
+    }
+
+    .diagram-container .pc-box .pc-icon {
+        width: 44px; height: 44px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.05));
+        border: 1px solid rgba(56, 189, 248, 0.2);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 20px;
+    }
+
+    .diagram-container .pc-box .pc-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 20px; font-weight: 700; color: #f1f5f9;
+    }
+
+    .diagram-container .pc-box .pc-subtitle {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px; color: #64748b; margin-top: 2px;
+    }
+
+    .diagram-container .pc-box .pc-specs {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px; color: #475569;
+        margin-top: 4px; margin-bottom: 20px; padding-left: 58px;
+    }
+
+    .diagram-container .pfsense-row {
+        display: flex; justify-content: center; margin-bottom: 20px;
+    }
+
+    .diagram-container .pfsense-box {
+        background: linear-gradient(135deg, rgba(251, 146, 60, 0.12), rgba(251, 146, 60, 0.03));
+        border: 1px solid rgba(251, 146, 60, 0.25);
+        border-radius: 14px; padding: 12px 28px;
+        display: flex; align-items: center; gap: 10px;
+    }
+
+    .diagram-container .pfsense-box .shield { font-size: 18px; }
+    .diagram-container .pfsense-box .label { font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 14px; color: #fb923c; }
+    .diagram-container .pfsense-box .tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px; color: #94a3b8;
+        background: rgba(251, 146, 60, 0.08);
+        padding: 3px 8px; border-radius: 6px;
+        border: 1px solid rgba(251, 146, 60, 0.15);
+    }
+
+    .diagram-container .vlan-grid {
+        display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+
+    .diagram-container .vlan-card {
+        border-radius: 16px; padding: 16px;
+        position: relative; overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .diagram-container .vlan-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+
+    .diagram-container .vlan-card::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0;
+        height: 3px; border-radius: 16px 16px 0 0;
+    }
+
+    .diagram-container .vlan-10 {
+        background: linear-gradient(180deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+        border: 1px solid rgba(16, 185, 129, 0.2);
+    }
+    .diagram-container .vlan-10::before { background: linear-gradient(90deg, #10b981, #34d399); }
+    .diagram-container .vlan-10 .vlan-id { color: #34d399; }
+
+    .diagram-container .vlan-20 {
+        background: linear-gradient(180deg, rgba(56, 189, 248, 0.1), rgba(56, 189, 248, 0.02));
+        border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    .diagram-container .vlan-20::before { background: linear-gradient(90deg, #38bdf8, #7dd3fc); }
+    .diagram-container .vlan-20 .vlan-id { color: #38bdf8; }
+
+    .diagram-container .vlan-30 {
+        background: linear-gradient(180deg, rgba(167, 139, 250, 0.1), rgba(167, 139, 250, 0.02));
+        border: 1px solid rgba(167, 139, 250, 0.2);
+    }
+    .diagram-container .vlan-30::before { background: linear-gradient(90deg, #a78bfa, #c4b5fd); }
+    .diagram-container .vlan-30 .vlan-id { color: #a78bfa; }
+
+    .diagram-container .vlan-40 {
+        background: linear-gradient(180deg, rgba(248, 113, 113, 0.1), rgba(248, 113, 113, 0.02));
+        border: 1px solid rgba(248, 113, 113, 0.2);
+    }
+    .diagram-container .vlan-40::before { background: linear-gradient(90deg, #f87171, #fca5a5); }
+    .diagram-container .vlan-40 .vlan-id { color: #f87171; }
+
+    .diagram-container .vlan-card .vlan-header {
+        display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+    }
+
+    .diagram-container .vlan-card .vlan-id {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    }
+
+    .diagram-container .vlan-card .vlan-name {
+        font-family: 'Outfit', sans-serif;
+        font-size: 15px; font-weight: 700; color: #f1f5f9; margin-bottom: 2px;
+    }
+
+    .diagram-container .vlan-card .vlan-subnet {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px; color: #64748b; margin-bottom: 12px;
+    }
+
+    .diagram-container .vlan-card .service {
+        display: flex; align-items: center; gap: 8px;
+        padding: 6px 0;
+        border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .diagram-container .vlan-card .service:first-of-type { border-top: none; }
+
+    .diagram-container .service .dot {
+        width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+    }
+
+    .diagram-container .vlan-10 .dot { background: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.4); }
+    .diagram-container .vlan-20 .dot { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+    .diagram-container .vlan-30 .dot { background: #a78bfa; box-shadow: 0 0 8px rgba(167, 139, 250, 0.4); }
+    .diagram-container .vlan-40 .dot { background: #f87171; box-shadow: 0 0 8px rgba(248, 113, 113, 0.4); }
+
+    .diagram-container .service .svc-name {
+        font-family: 'Outfit', sans-serif;
+        font-size: 12px; color: #cbd5e1; font-weight: 500;
+    }
+
+    .diagram-container .service .svc-type {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px; color: #475569; margin-left: auto; flex-shrink: 0;
+    }
+
+    .diagram-container .nas-connector {
+        display: flex; justify-content: center; margin: 20px 0;
+        position: relative; z-index: 1;
+    }
+
+    .diagram-container .nas-connector .dashed-line {
+        width: 2px; height: 40px;
+        background: repeating-linear-gradient(
+            to bottom,
+            rgba(251, 191, 36, 0.4) 0px, rgba(251, 191, 36, 0.4) 6px,
+            transparent 6px, transparent 12px
+        );
+    }
+
+    .diagram-container .nas-section {
+        animation: diagramFadeUp 0.8s ease 0.6s both;
+        position: relative; z-index: 1;
+    }
+
+    .diagram-container .nas-box {
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(251, 191, 36, 0.06), rgba(15, 23, 42, 0.8));
+        backdrop-filter: blur(20px);
+        padding: 24px 28px;
+        display: flex; align-items: center; gap: 24px;
+        position: relative; overflow: hidden;
+    }
+
+    .diagram-container .nas-box::before {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.3), transparent);
+    }
+
+    .diagram-container .nas-icon {
+        width: 52px; height: 52px; border-radius: 14px;
+        background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05));
+        border: 1px solid rgba(251, 191, 36, 0.2);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 24px; flex-shrink: 0;
+    }
+
+    .diagram-container .nas-info .nas-title {
+        font-family: 'Outfit', sans-serif;
+        font-size: 18px; font-weight: 700; color: #fbbf24; margin-bottom: 2px;
+    }
+
+    .diagram-container .nas-info .nas-desc {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px; color: #64748b;
+    }
+
+    .diagram-container .nas-tags {
+        display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; justify-content: flex-end;
+    }
+
+    .diagram-container .nas-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px; color: #fbbf24;
+        background: rgba(251, 191, 36, 0.08);
+        border: 1px solid rgba(251, 191, 36, 0.15);
+        padding: 4px 10px; border-radius: 8px; white-space: nowrap;
+    }
+
+    .diagram-container .legend {
+        display: flex; justify-content: center; gap: 24px;
+        margin-top: 32px; flex-wrap: wrap;
+        position: relative; z-index: 1;
+        animation: diagramFadeUp 0.8s ease 0.7s both;
+    }
+
+    .diagram-container .legend-item {
+        display: flex; align-items: center; gap: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 10px; color: #64748b; letter-spacing: 0.5px;
+    }
+
+    .diagram-container .legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .diagram-container .legend-dot.vm { background: #fb923c; box-shadow: 0 0 8px rgba(251, 146, 60, 0.4); }
+    .diagram-container .legend-dot.ct { background: #38bdf8; box-shadow: 0 0 8px rgba(56, 189, 248, 0.4); }
+
+    .diagram-container .ram-bar {
+        margin-top: 28px;
+        position: relative; z-index: 1;
+        animation: diagramFadeUp 0.8s ease 0.8s both;
+    }
+
+    .diagram-container .ram-bar-label {
+        display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;
+    }
+
+    .diagram-container .ram-bar-label span {
+        font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #64748b;
+    }
+
+    .diagram-container .ram-bar-label .used { color: #38bdf8; font-weight: 600; }
+
+    .diagram-container .ram-track {
+        height: 10px;
+        background: rgba(30, 41, 59, 0.8);
+        border-radius: 10px; overflow: hidden;
+        border: 1px solid rgba(56, 189, 248, 0.1);
+        display: flex;
+    }
+
+    .diagram-container .ram-segment { height: 100%; transition: width 1s ease; }
+    .diagram-container .ram-pve   { background: #475569; width: 12.5%; }
+    .diagram-container .ram-fw    { background: #fb923c; width: 6.4%; }
+    .diagram-container .ram-nginx { background: #34d399; width: 3.2%; }
+    .diagram-container .ram-pg    { background: #38bdf8; width: 6.4%; }
+    .diagram-container .ram-mon   { background: #38bdf8; width: 6.4%; }
+    .diagram-container .ram-forge { background: #a78bfa; width: 4.8%; }
+    .diagram-container .ram-wood  { background: #a78bfa; width: 4.8%; }
+    .diagram-container .ram-reg   { background: #c4b5fd; width: 3.2%; }
+    .diagram-container .ram-free  { background: rgba(52, 211, 153, 0.15); flex: 1; }
+
+    .diagram-container .ram-labels {
+        display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap; justify-content: center;
+    }
+
+    .diagram-container .ram-label-item {
+        display: flex; align-items: center; gap: 5px;
+        font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #64748b;
+    }
+
+    .diagram-container .ram-label-item .swatch {
+        width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0;
+    }
+
+    .diagram-container .tailscale-badge {
+        position: absolute; top: 28px; right: 28px;
+        display: flex; align-items: center; gap: 6px;
+        font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #64748b;
+        background: rgba(30, 41, 59, 0.6);
+        padding: 5px 12px; border-radius: 8px;
+        border: 1px solid rgba(100, 116, 139, 0.15);
+    }
+
+    .diagram-container .tailscale-badge .ts-dot {
+        width: 6px; height: 6px; border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 8px rgba(52, 211, 153, 0.5);
+        animation: diagramPulse 2s infinite;
+    }
+
+    .diagram-container .isolation-badge {
+        position: absolute; bottom: 8px; right: 16px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 9px; color: #f87171;
+        letter-spacing: 0.5px; opacity: 0.6;
+    }
+
+    @keyframes diagramFadeDown {
+        from { opacity: 0; transform: translateY(-16px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes diagramFadeUp {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes diagramPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.4; }
+    }
+
+    @media (max-width: 700px) {
+        .diagram-container .vlan-grid { grid-template-columns: repeat(2, 1fr); }
+        .diagram-container .header h1 { font-size: 28px; }
+        .diagram-container .nas-box { flex-direction: column; text-align: center; }
+        .diagram-container .nas-tags { margin-left: 0; justify-content: center; }
+    }
+    </style>
 </head>
 <body>
-
-<!-- Floating Back Button -->
-<a href="realisations.html" class="back-btn" onclick="history.back()">
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
-  </svg>
-  Retour
-</a>
-
-<div class="canvas">
-
-  <!-- Header -->
-  <div class="header">
-    <div class="badge">Architecture Cible</div>
-    <h1>🔒 Proxmox Secure Lab</h1>
-    <p>Homelab sécurisé sur 2 laptops recyclés — Infrastructure segmentée & automatisée</p>
-  </div>
-
-  <!-- Internet -->
-  <div class="internet-node">
-    <div class="internet-box">
-      <span class="icon">🌐</span>
-      <span>Internet</span>
-    </div>
-  </div>
-
-  <div class="connector"><div class="line"></div></div>
-
-  <!-- PC 1 — Proxmox -->
-  <div class="pc-section">
-    <div class="pc-box">
-
-      <div class="tailscale-badge">
-        <div class="ts-dot"></div>
-        Tailscale VPN
-      </div>
-
-      <div class="pc-header">
-        <div class="pc-icon">🖥️</div>
-        <div>
-          <div class="pc-title">PC 1 — Proxmox VE 8.x</div>
-          <div class="pc-subtitle">Hyperviseur principal</div>
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">tom.daluzeau</a>
+            <button class="navbar-toggle" id="navToggle">&#9776;</button>
+            <ul class="navbar-menu" id="navMenu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="parcours.html">Parcours</a></li>
+                <li><a href="realisations.html" class="active">Réalisations</a></li>
+                <li><a href="epreuves.html">Épreuves</a></li>
+                <li><a href="veille.html">Veille</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.06 7 9.54 0 4.48-2.94 8.27-7 9.54.95.3 1.95.46 3 .46 5.52 0 10-4.48 10-10S14.52 2 9 2z"/>
+                </svg>
+            </button>
         </div>
-      </div>
-      <div class="pc-specs">i5-8265U · 8 Go DDR4 · 250 Go SSD · ext4</div>
+    </nav>
 
-      <!-- pfSense -->
-      <div class="pfsense-row">
-        <div class="pfsense-box">
-          <span class="shield">🛡️</span>
-          <span class="label">pfSense CE</span>
-          <span class="tag">VM · 512 Mo</span>
-          <span class="tag">Firewall / Router / DHCP / DNS</span>
+    <!-- HEADER -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="terminal-box">
+                <div class="terminal-bar">
+                    <div class="terminal-dots">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                    </div>
+                    <span class="terminal-title">~/projects/proxmox-secure-lab</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="page-header">
+                        <h1 class="page-title">Proxmox Secure Lab</h1>
+                        <p class="page-subtitle">Infrastructure virtualisée sécurisée sur homelab</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project metadata -->
+            <div class="project-meta-grid">
+                <div class="meta-card">
+                    <div class="meta-card-label">Statut</div>
+                    <div class="meta-card-value">En production</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-card-label">Période</div>
+                    <div class="meta-card-value">Oct. 2024 - Présent</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-card-label">Environnement</div>
+                    <div class="meta-card-value">Homelab personnel</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-card-label">Hyperviseur</div>
+                    <div class="meta-card-value">Proxmox VE 8.x</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-card-label">Code source</div>
+                    <div class="meta-card-value"><a href="https://github.com/tmdlz/proxmox-secure-lab" target="_blank" rel="noopener" style="color: var(--accent-blue); text-decoration: none;">GitHub →</a></div>
+                </div>
+            </div>
         </div>
-      </div>
+    </section>
 
-      <!-- VLANs -->
-      <div class="vlan-grid">
-
-        <!-- VLAN 10 -->
-        <div class="vlan-card vlan-10">
-          <div class="vlan-header">
-            <span class="vlan-id">VLAN 10</span>
-          </div>
-          <div class="vlan-name">Management</div>
-          <div class="vlan-subnet">10.10.10.0/24</div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">Proxmox Web UI</span>
-          </div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">SSH Access</span>
-          </div>
+    <!-- CONTEXTE -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Contexte du projet</h2>
+                </div>
+                <div class="project-context">
+                    <p>
+                        Dans le cadre de ma formation BTS SIO SISR et pour approfondir mes compétences en <strong>administration système,
+                        virtualisation et sécurité réseau</strong>, j'ai conçu et déployé un homelab complet basé sur
+                        <strong>deux laptops recyclés</strong>.
+                    </p>
+                    <p style="margin-top: 0.75rem;">
+                        L'objectif principal est de disposer d'un environnement de production réaliste permettant d'héberger
+                        des services (reverse proxy, base de données, monitoring, CI/CD) tout en appliquant les bonnes pratiques
+                        de <strong>segmentation réseau, de firewall et d'automatisation</strong>.
+                    </p>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- VLAN 20 -->
-        <div class="vlan-card vlan-20">
-          <div class="vlan-header">
-            <span class="vlan-id">VLAN 20</span>
-          </div>
-          <div class="vlan-name">Services</div>
-          <div class="vlan-subnet">10.10.20.0/24</div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">Nginx Proxy</span>
-            <span class="svc-type">CT</span>
-          </div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">PostgreSQL 16</span>
-            <span class="svc-type">CT</span>
-          </div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">VictoriaMetrics</span>
-            <span class="svc-type">CT</span>
-          </div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">Grafana</span>
-            <span class="svc-type">CT</span>
-          </div>
+    <!-- OBJECTIFS -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Objectifs</h2>
+                </div>
+                <ul class="objectives-list">
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Virtualiser une infrastructure complète avec Proxmox VE (VMs et conteneurs LXC)
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Segmenter le réseau en VLANs (Management, Services, CI/CD, DMZ) avec pfSense
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Mettre en place un pipeline CI/CD self-hosted (Forgejo + Woodpecker CI)
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Déployer un monitoring centralisé (VictoriaMetrics + Grafana)
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Automatiser les sauvegardes chiffrées vers un NAS dédié (rsync + GPG)
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Sécuriser l'accès distant via Tailscale VPN et durcir chaque service (Fail2ban, UFW, MFA)
+                    </li>
+                </ul>
+            </div>
         </div>
+    </section>
 
-        <!-- VLAN 30 -->
-        <div class="vlan-card vlan-30">
-          <div class="vlan-header">
-            <span class="vlan-id">VLAN 30</span>
-          </div>
-          <div class="vlan-name">CI / CD</div>
-          <div class="vlan-subnet">10.10.30.0/24</div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">Forgejo</span>
-            <span class="svc-type">CT</span>
-          </div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">Woodpecker CI</span>
-            <span class="svc-type">CT</span>
-          </div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">Docker Registry</span>
-            <span class="svc-type">CT</span>
-          </div>
+    <!-- ARCHITECTURE RÉSEAU -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="section-header text-center">
+                <h2 class="section-title">Architecture réseau</h2>
+                <p class="section-subtitle">Diagramme interactif de l'infrastructure</p>
+            </div>
+
+            <div class="diagram-container">
+                <div class="canvas">
+                    <!-- Header -->
+                    <div class="header">
+                        <div class="badge">Architecture Cible</div>
+                        <h1>Proxmox Secure Lab</h1>
+                        <p>Homelab sécurisé sur 2 laptops recyclés — Infrastructure segmentée & automatisée</p>
+                    </div>
+
+                    <!-- Internet -->
+                    <div class="internet-node">
+                        <div class="internet-box">
+                            <span class="icon">&#127760;</span>
+                            <span>Internet</span>
+                        </div>
+                    </div>
+
+                    <div class="connector"><div class="line"></div></div>
+
+                    <!-- PC 1 — Proxmox -->
+                    <div class="pc-section">
+                        <div class="pc-box">
+                            <div class="tailscale-badge">
+                                <div class="ts-dot"></div>
+                                Tailscale VPN
+                            </div>
+
+                            <div class="pc-header">
+                                <div class="pc-icon">&#128421;&#65039;</div>
+                                <div>
+                                    <div class="pc-title">PC 1 — Proxmox VE 8.x</div>
+                                    <div class="pc-subtitle">Hyperviseur principal</div>
+                                </div>
+                            </div>
+                            <div class="pc-specs">i5-8265U · 8 Go DDR4 · 250 Go SSD · ext4</div>
+
+                            <!-- pfSense -->
+                            <div class="pfsense-row">
+                                <div class="pfsense-box">
+                                    <span class="shield">&#128737;&#65039;</span>
+                                    <span class="label">pfSense CE</span>
+                                    <span class="tag">VM · 512 Mo</span>
+                                    <span class="tag">Firewall / Router / DHCP / DNS</span>
+                                </div>
+                            </div>
+
+                            <!-- VLANs -->
+                            <div class="vlan-grid">
+                                <!-- VLAN 10 -->
+                                <div class="vlan-card vlan-10">
+                                    <div class="vlan-header">
+                                        <span class="vlan-id">VLAN 10</span>
+                                    </div>
+                                    <div class="vlan-name">Management</div>
+                                    <div class="vlan-subnet">10.10.10.0/24</div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">Proxmox Web UI</span>
+                                    </div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">SSH Access</span>
+                                    </div>
+                                </div>
+
+                                <!-- VLAN 20 -->
+                                <div class="vlan-card vlan-20">
+                                    <div class="vlan-header">
+                                        <span class="vlan-id">VLAN 20</span>
+                                    </div>
+                                    <div class="vlan-name">Services</div>
+                                    <div class="vlan-subnet">10.10.20.0/24</div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">Nginx Proxy</span>
+                                        <span class="svc-type">CT</span>
+                                    </div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">PostgreSQL 16</span>
+                                        <span class="svc-type">CT</span>
+                                    </div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">VictoriaMetrics</span>
+                                        <span class="svc-type">CT</span>
+                                    </div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">Grafana</span>
+                                        <span class="svc-type">CT</span>
+                                    </div>
+                                </div>
+
+                                <!-- VLAN 30 -->
+                                <div class="vlan-card vlan-30">
+                                    <div class="vlan-header">
+                                        <span class="vlan-id">VLAN 30</span>
+                                    </div>
+                                    <div class="vlan-name">CI / CD</div>
+                                    <div class="vlan-subnet">10.10.30.0/24</div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">Forgejo</span>
+                                        <span class="svc-type">CT</span>
+                                    </div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">Woodpecker CI</span>
+                                        <span class="svc-type">CT</span>
+                                    </div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">Docker Registry</span>
+                                        <span class="svc-type">CT</span>
+                                    </div>
+                                </div>
+
+                                <!-- VLAN 40 -->
+                                <div class="vlan-card vlan-40">
+                                    <div class="vlan-header">
+                                        <span class="vlan-id">VLAN 40</span>
+                                    </div>
+                                    <div class="vlan-name">DMZ</div>
+                                    <div class="vlan-subnet">10.10.40.0/24</div>
+                                    <div class="service">
+                                        <div class="dot"></div>
+                                        <span class="svc-name">Kali Linux</span>
+                                        <span class="svc-type">VM</span>
+                                    </div>
+                                    <div class="isolation-badge">&#9940; ISOLÉ — Internet only</div>
+                                </div>
+                            </div>
+
+                            <!-- RAM Budget Bar -->
+                            <div class="ram-bar">
+                                <div class="ram-bar-label">
+                                    <span>RAM Budget (sans Kali)</span>
+                                    <span class="used">3,8 Go / 8 Go — <span style="color:#34d399">2,2 Go libre</span></span>
+                                </div>
+                                <div class="ram-track">
+                                    <div class="ram-segment ram-pve"></div>
+                                    <div class="ram-segment ram-fw"></div>
+                                    <div class="ram-segment ram-nginx"></div>
+                                    <div class="ram-segment ram-pg"></div>
+                                    <div class="ram-segment ram-mon"></div>
+                                    <div class="ram-segment ram-forge"></div>
+                                    <div class="ram-segment ram-wood"></div>
+                                    <div class="ram-segment ram-reg"></div>
+                                    <div class="ram-segment ram-free"></div>
+                                </div>
+                                <div class="ram-labels">
+                                    <div class="ram-label-item"><div class="swatch" style="background:#475569"></div>Proxmox 1G</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:#fb923c"></div>pfSense 512M</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:#34d399"></div>Nginx 256M</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:#38bdf8"></div>PG 512M</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:#38bdf8"></div>Monitoring 512M</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:#a78bfa"></div>Forgejo 384M</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:#a78bfa"></div>Woodpecker 384M</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:#c4b5fd"></div>Registry 256M</div>
+                                    <div class="ram-label-item"><div class="swatch" style="background:rgba(52,211,153,0.3)"></div>Libre 2,2G</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- NAS Connector -->
+                    <div class="nas-connector">
+                        <div class="dashed-line"></div>
+                    </div>
+
+                    <!-- PC 2 — NAS -->
+                    <div class="nas-section">
+                        <div class="nas-box">
+                            <div class="nas-icon">&#128190;</div>
+                            <div class="nas-info">
+                                <div class="nas-title">PC 2 — NAS / Backup</div>
+                                <div class="nas-desc">Debian 12 minimal · i5-5200U · 8 Go DDR3L · 1 To HDD</div>
+                            </div>
+                            <div class="nas-tags">
+                                <span class="nas-tag">NFS</span>
+                                <span class="nas-tag">rsync + GPG</span>
+                                <span class="nas-tag">vzdump</span>
+                                <span class="nas-tag">pg_dump</span>
+                                <span class="nas-tag">SMART</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Legend -->
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-dot vm"></div>
+                            VM (kernel complet)
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot ct"></div>
+                            Container LXC (léger)
+                        </div>
+                        <div class="legend-item">
+                            &#128272; Fail2ban + UFW + MFA
+                        </div>
+                        <div class="legend-item">
+                            &#128230; Ansible + Bash IaC
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- VLAN 40 -->
-        <div class="vlan-card vlan-40">
-          <div class="vlan-header">
-            <span class="vlan-id">VLAN 40</span>
-          </div>
-          <div class="vlan-name">DMZ</div>
-          <div class="vlan-subnet">10.10.40.0/24</div>
-          <div class="service">
-            <div class="dot"></div>
-            <span class="svc-name">Kali Linux</span>
-            <span class="svc-type">VM</span>
-          </div>
-          <div class="isolation-badge">⛔ ISOLÉ — Internet only</div>
+    <!-- ÉTAPES DE RÉALISATION -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Étapes de réalisation</h2>
+                </div>
+                <div class="steps-list">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Préparation du matériel</h4>
+                            <p>Récupération et reconditionnement de 2 laptops. Installation de Proxmox VE 8.x sur le PC principal et Debian 12 minimal sur le NAS.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Segmentation réseau avec pfSense</h4>
+                            <p>Déploiement d'une VM pfSense pour le routage inter-VLAN, DHCP, DNS et filtrage firewall. Création de 4 VLANs (Management, Services, CI/CD, DMZ).</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Déploiement des services</h4>
+                            <p>Installation des conteneurs LXC : Nginx (reverse proxy), PostgreSQL 16, VictoriaMetrics + Grafana (monitoring), Forgejo + Woodpecker CI (pipeline CI/CD), Docker Registry privé.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Sécurisation de l'infrastructure</h4>
+                            <p>Mise en place de Fail2ban, UFW, MFA sur les accès critiques. Isolation de la DMZ (Kali Linux) avec accès Internet uniquement. Accès distant sécurisé via Tailscale VPN.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Sauvegardes automatisées</h4>
+                            <p>Configuration de vzdump pour les VMs/CTs, pg_dump pour PostgreSQL, rsync + chiffrement GPG vers le NAS dédié. Monitoring de l'état des disques via SMART.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Automatisation (IaC)</h4>
+                            <p>Écriture de playbooks Ansible et scripts Bash pour le provisioning automatisé des services et la gestion de configuration.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </section>
 
-      </div>
-
-      <!-- RAM Budget Bar -->
-      <div class="ram-bar">
-        <div class="ram-bar-label">
-          <span>RAM Budget (sans Kali)</span>
-          <span class="used">3,8 Go / 8 Go — <span style="color:#34d399">2,2 Go libre</span></span>
+    <!-- TECHNOLOGIES -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Technologies utilisées</h2>
+                </div>
+                <div class="tech-stack-grid">
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#128421;&#65039;</div>
+                        <div>
+                            <div class="tech-stack-name">Proxmox VE 8.x</div>
+                            <div class="tech-stack-role">Hyperviseur (VMs + LXC)</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#128737;&#65039;</div>
+                        <div>
+                            <div class="tech-stack-name">pfSense CE</div>
+                            <div class="tech-stack-role">Firewall / Router / DHCP / DNS</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#128039;</div>
+                        <div>
+                            <div class="tech-stack-name">Debian 12</div>
+                            <div class="tech-stack-role">OS des conteneurs et NAS</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#128202;</div>
+                        <div>
+                            <div class="tech-stack-name">Grafana + VictoriaMetrics</div>
+                            <div class="tech-stack-role">Monitoring & dashboards</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#128256;</div>
+                        <div>
+                            <div class="tech-stack-name">Forgejo + Woodpecker</div>
+                            <div class="tech-stack-role">Git self-hosted + CI/CD</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#128274;</div>
+                        <div>
+                            <div class="tech-stack-name">Tailscale VPN</div>
+                            <div class="tech-stack-role">Accès distant sécurisé</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#128190;</div>
+                        <div>
+                            <div class="tech-stack-name">rsync + GPG</div>
+                            <div class="tech-stack-role">Sauvegardes chiffrées</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">&#9881;&#65039;</div>
+                        <div>
+                            <div class="tech-stack-name">Ansible + Bash</div>
+                            <div class="tech-stack-role">Infrastructure as Code</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="ram-track">
-          <div class="ram-segment ram-pve"></div>
-          <div class="ram-segment ram-fw"></div>
-          <div class="ram-segment ram-nginx"></div>
-          <div class="ram-segment ram-pg"></div>
-          <div class="ram-segment ram-mon"></div>
-          <div class="ram-segment ram-forge"></div>
-          <div class="ram-segment ram-wood"></div>
-          <div class="ram-segment ram-reg"></div>
-          <div class="ram-segment ram-free"></div>
+    </section>
+
+    <!-- COMPÉTENCES BTS MOBILISÉES -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Compétences BTS mobilisées</h2>
+                </div>
+                <div class="competences-bts">
+                    <div class="competence-row">
+                        <code class="blue">B1.1</code>
+                        <span>Gérer le patrimoine informatique — Inventaire et gestion du matériel recyclé, documentation de l'infrastructure</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="blue">B1.2</code>
+                        <span>Répondre aux incidents — Monitoring avec Grafana, alerting, résolution d'incidents sur les services</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="blue">B1.3</code>
+                        <span>Développer la présence en ligne — Reverse proxy Nginx, gestion des certificats, Docker Registry</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="blue">B1.6</code>
+                        <span>Organiser son développement professionnel — Veille technologique, autoformation sur Proxmox et CI/CD</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="green">B2.1</code>
+                        <span>Gérer le réseau — Configuration VLANs, pfSense, routage inter-VLAN, DHCP/DNS</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="green">B2.2</code>
+                        <span>Administrer un système — Proxmox VE, conteneurs LXC, VMs, PostgreSQL, automatisation Ansible</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="green">B2.3</code>
+                        <span>Administrer un service — Déploiement Forgejo, Woodpecker CI, Grafana, VictoriaMetrics, Nginx</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="red">B3.1</code>
+                        <span>Protéger les données — Sauvegardes chiffrées (GPG), vzdump, pg_dump, monitoring SMART</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="red">B3.2</code>
+                        <span>Sécuriser les équipements — Fail2ban, UFW, MFA, isolation DMZ, Tailscale VPN</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="red">B3.3</code>
+                        <span>Sécuriser les échanges — VPN Tailscale, certificats TLS, segmentation réseau</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="ram-labels">
-          <div class="ram-label-item"><div class="swatch" style="background:#475569"></div>Proxmox 1G</div>
-          <div class="ram-label-item"><div class="swatch" style="background:#fb923c"></div>pfSense 512M</div>
-          <div class="ram-label-item"><div class="swatch" style="background:#34d399"></div>Nginx 256M</div>
-          <div class="ram-label-item"><div class="swatch" style="background:#38bdf8"></div>PG 512M</div>
-          <div class="ram-label-item"><div class="swatch" style="background:#38bdf8"></div>Monitoring 512M</div>
-          <div class="ram-label-item"><div class="swatch" style="background:#a78bfa"></div>Forgejo 384M</div>
-          <div class="ram-label-item"><div class="swatch" style="background:#a78bfa"></div>Woodpecker 384M</div>
-          <div class="ram-label-item"><div class="swatch" style="background:#c4b5fd"></div>Registry 256M</div>
-          <div class="ram-label-item"><div class="swatch" style="background:rgba(52,211,153,0.3)"></div>Libre 2,2G</div>
+    </section>
+
+    <!-- RETOUR -->
+    <section class="section">
+        <div class="container-narrow text-center">
+            <a href="realisations.html" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+                </svg>
+                Retour aux réalisations
+            </a>
         </div>
-      </div>
+    </section>
 
-    </div>
-  </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="parcours.html">Parcours</a></li>
+                        <li><a href="realisations.html">Réalisations</a></li>
+                        <li><a href="epreuves.html">Épreuves</a></li>
+                        <li><a href="veille.html">Veille</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
 
-  <!-- NAS Connector -->
-  <div class="nas-connector">
-    <div class="dashed-line"></div>
-  </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:tomdaluzeau@gmail.com">tomdaluzeau@gmail.com</a></li>
+                        <li><a href="tel:+33767694404">07 67 69 44 04</a></li>
+                        <li>Villers-sur-Marne (94350)</li>
+                    </ul>
+                </div>
 
-  <!-- PC 2 — NAS -->
-  <div class="nas-section">
-    <div class="nas-box">
-      <div class="nas-icon">💾</div>
-      <div class="nas-info">
-        <div class="nas-title">PC 2 — NAS / Backup</div>
-        <div class="nas-desc">Debian 12 minimal · i5-5200U · 8 Go DDR3L · 1 To HDD</div>
-      </div>
-      <div class="nas-tags">
-        <span class="nas-tag">NFS</span>
-        <span class="nas-tag">rsync + GPG</span>
-        <span class="nas-tag">vzdump</span>
-        <span class="nas-tag">pg_dump</span>
-        <span class="nas-tag">SMART</span>
-      </div>
-    </div>
-  </div>
+                <div class="footer-section">
+                    <h3>Réseaux</h3>
+                    <div class="footer-social">
+                        <a href="https://github.com/tmdlz" target="_blank" rel="noopener" title="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/daluzeautom/" target="_blank" rel="noopener" title="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-  <!-- Legend -->
-  <div class="legend">
-    <div class="legend-item">
-      <div class="legend-dot vm"></div>
-      VM (kernel complet)
-    </div>
-    <div class="legend-item">
-      <div class="legend-dot ct"></div>
-      Container LXC (léger)
-    </div>
-    <div class="legend-item">
-      🔐 Fail2ban + UFW + MFA
-    </div>
-    <div class="legend-item">
-      📦 Ansible + Bash IaC
-    </div>
-  </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Tom Daluzeau &bull; Portfolio BTS SIO SISR &bull; Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
 
-</div>
-
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
 </body>
 </html>

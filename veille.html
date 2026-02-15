@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Veille technologique - Conteneurisation et orchestration cloud par Tom Daluzeau">
+    <title>Veille Technologique | Tom Daluzeau</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/veille.css">
+    <script src="scripts/theme-toggle.js"></script>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">tom.daluzeau</a>
+            <button class="navbar-toggle" id="navToggle">☰</button>
+            <ul class="navbar-menu" id="navMenu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="parcours.html">Parcours</a></li>
+                <li><a href="realisations.html">Réalisations</a></li>
+                <li><a href="epreuves.html">Épreuves</a></li>
+                <li><a href="veille.html" class="active">Veille</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.06 7 9.54 0 4.48-2.94 8.27-7 9.54.95.3 1.95.46 3 .46 5.52 0 10-4.48 10-10S14.52 2 9 2z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="terminal-box">
+                <div class="terminal-bar">
+                    <div class="terminal-dots">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                    </div>
+                    <span class="terminal-title">~/portfolio/veille.sh</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="page-header">
+                        <h1 class="page-title">Veille Technologique</h1>
+                        <p class="page-subtitle">Suivi de l'actualité et des évolutions technologiques</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTRODUCTION & SUJET -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Sujet de veille</h2>
+                </div>
+                <p class="veille-intro">
+                    La veille technologique consiste à surveiller les évolutions techniques et les innovations dans un domaine donné. Elle permet de rester informé des nouvelles technologies, des bonnes pratiques et des menaces émergentes. Dans le cadre de mon BTS SIO SISR, j'ai choisi de concentrer ma veille sur la <strong>conteneurisation et l'orchestration cloud</strong>, un domaine central du DevOps et de l'administration moderne des infrastructures.
+                </p>
+                <div class="veille-subject">
+                    <div class="veille-subject-icon">🐳</div>
+                    <div>
+                        <div class="veille-subject-title">Conteneurisation & Orchestration Cloud</div>
+                        <div class="veille-subject-desc">Docker, Kubernetes, CI/CD, Infrastructure as Code — Comment les conteneurs transforment le déploiement et la gestion des services informatiques en entreprise.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OUTILS & SOURCES -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="section-header">
+                <h2 class="section-title">Outils et sources de veille</h2>
+                <p class="section-subtitle">Comment je collecte l'information</p>
+            </div>
+            <div class="sources-grid">
+                <div class="source-card">
+                    <div class="source-card-header">
+                        <div class="source-card-icon">📡</div>
+                        <div>
+                            <div class="source-card-title">Flux RSS / Feedly</div>
+                            <div class="source-card-type">Agrégateur</div>
+                        </div>
+                    </div>
+                    <p class="source-card-desc">Agrégation de flux RSS depuis des blogs techniques (Docker Blog, Kubernetes Blog, CNCF) pour un suivi automatisé des publications.</p>
+                </div>
+                <div class="source-card">
+                    <div class="source-card-header">
+                        <div class="source-card-icon">🐙</div>
+                        <div>
+                            <div class="source-card-title">GitHub / Releases</div>
+                            <div class="source-card-type">Code source</div>
+                        </div>
+                    </div>
+                    <p class="source-card-desc">Suivi des releases et changelogs des projets open-source majeurs : Docker Engine, Kubernetes, Terraform, Ansible.</p>
+                </div>
+                <div class="source-card">
+                    <div class="source-card-header">
+                        <div class="source-card-icon">📰</div>
+                        <div>
+                            <div class="source-card-title">Sites spécialisés</div>
+                            <div class="source-card-type">Médias tech</div>
+                        </div>
+                    </div>
+                    <p class="source-card-desc">The New Stack, DevOps.com, Le Monde Informatique, ZDNet — Articles de fond et analyses sur les tendances DevOps et cloud.</p>
+                </div>
+                <div class="source-card">
+                    <div class="source-card-header">
+                        <div class="source-card-icon">🎓</div>
+                        <div>
+                            <div class="source-card-title">Communautés & Forums</div>
+                            <div class="source-card-type">Échanges</div>
+                        </div>
+                    </div>
+                    <p class="source-card-desc">Reddit (r/devops, r/docker, r/kubernetes), Hacker News, Stack Overflow — Retours d'expérience et discussions entre professionnels.</p>
+                </div>
+                <div class="source-card">
+                    <div class="source-card-header">
+                        <div class="source-card-icon">🔔</div>
+                        <div>
+                            <div class="source-card-title">Google Alerts</div>
+                            <div class="source-card-type">Alertes automatiques</div>
+                        </div>
+                    </div>
+                    <p class="source-card-desc">Alertes configurées sur les mots-clés : "Docker security", "Kubernetes CVE", "container orchestration", "DevOps trends".</p>
+                </div>
+                <div class="source-card">
+                    <div class="source-card-header">
+                        <div class="source-card-icon">📺</div>
+                        <div>
+                            <div class="source-card-title">Conférences & YouTube</div>
+                            <div class="source-card-type">Vidéo</div>
+                        </div>
+                    </div>
+                    <p class="source-card-desc">KubeCon, DockerCon, FOSDEM — Replays de conférences et chaînes YouTube techniques (TechWorld with Nana, Xavki).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ARTICLES -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="section-header">
+                <h2 class="section-title">Articles et découvertes</h2>
+                <p class="section-subtitle">Sélection d'articles marquants classés du plus récent au plus ancien</p>
+            </div>
+            <div class="articles-list">
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Fév. 2026</span>
+                        <span class="article-tag">Kubernetes</span>
+                    </div>
+                    <h3 class="article-title">Kubernetes 1.32 : les nouvelles fonctionnalités de sidecar containers en GA</h3>
+                    <p class="article-summary">La version 1.32 de Kubernetes stabilise les sidecar containers natifs, simplifiant les architectures de service mesh et de logging. Cette fonctionnalité permet de gérer le cycle de vie des conteneurs auxiliaires directement dans le pod, sans recourir à des solutions tierces.</p>
+                    <div class="article-source">📎 Source : Kubernetes Blog</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Jan. 2026</span>
+                        <span class="article-tag">Docker</span>
+                    </div>
+                    <h3 class="article-title">Docker Desktop 4.37 : builds multi-plateformes et intégration IA</h3>
+                    <p class="article-summary">Docker Desktop intègre désormais un assistant IA pour la génération de Dockerfiles et l'optimisation des images. Les builds multi-plateformes (ARM64/AMD64) sont simplifiés, répondant à la montée en puissance des architectures ARM en cloud.</p>
+                    <div class="article-source">📎 Source : Docker Blog</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Déc. 2025</span>
+                        <span class="article-tag">Sécurité</span>
+                    </div>
+                    <h3 class="article-title">CVE critiques dans les images de base : l'importance du scanning continu</h3>
+                    <p class="article-summary">Plusieurs CVE critiques ont été découvertes dans des images Docker officielles (Alpine, Debian). Cet article rappelle l'importance d'intégrer des outils de scanning (Trivy, Grype) dans les pipelines CI/CD pour détecter les vulnérabilités avant le déploiement en production.</p>
+                    <div class="article-source">📎 Source : The New Stack</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Nov. 2025</span>
+                        <span class="article-tag">IaC</span>
+                    </div>
+                    <h3 class="article-title">Terraform 1.10 : import automatique et gestion de state améliorée</h3>
+                    <p class="article-summary">HashiCorp annonce Terraform 1.10 avec l'import automatique de ressources existantes dans le state, facilitant l'adoption d'Infrastructure as Code sur des infrastructures legacy. La gestion du state distant est également renforcée avec de nouvelles options de locking.</p>
+                    <div class="article-source">📎 Source : HashiCorp Blog</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Oct. 2025</span>
+                        <span class="article-tag">Cloud</span>
+                    </div>
+                    <h3 class="article-title">L'essor des solutions cloud souveraines en Europe</h3>
+                    <p class="article-summary">Face aux enjeux de souveraineté numérique, plusieurs acteurs européens (OVHcloud, Scaleway, Infomaniak) accélèrent le développement de solutions Kubernetes managées conformes au RGPD. Le label SecNumCloud de l'ANSSI devient un critère de choix pour les administrations françaises.</p>
+                    <div class="article-source">📎 Source : Le Monde Informatique</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Sept. 2025</span>
+                        <span class="article-tag">DevOps</span>
+                    </div>
+                    <h3 class="article-title">GitOps : Flux CD vs ArgoCD, quel outil choisir en 2025 ?</h3>
+                    <p class="article-summary">Comparatif des deux principaux outils GitOps pour Kubernetes. ArgoCD domine en popularité grâce à son interface graphique, tandis que Flux CD séduit par son approche déclarative et son intégration native avec les outils CNCF.</p>
+                    <div class="article-source">📎 Source : DevOps.com</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Juil. 2025</span>
+                        <span class="article-tag">Conteneurs</span>
+                    </div>
+                    <h3 class="article-title">Podman 5.0 : alternative rootless à Docker en entreprise</h3>
+                    <p class="article-summary">Podman 5.0 renforce son positionnement comme alternative sans démon à Docker. L'exécution rootless par défaut améliore la sécurité, et la compatibilité Docker Compose est désormais quasi-complète. Red Hat pousse son adoption dans les environnements RHEL.</p>
+                    <div class="article-source">📎 Source : Red Hat Blog</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Mai 2025</span>
+                        <span class="article-tag">CI/CD</span>
+                    </div>
+                    <h3 class="article-title">GitHub Actions : les runners auto-hébergés pour réduire les coûts</h3>
+                    <p class="article-summary">Guide pratique sur la mise en place de runners GitHub Actions auto-hébergés sur une infrastructure on-premise. Cette approche permet de réduire les coûts CI/CD tout en gardant le contrôle sur l'environnement d'exécution et les données sensibles.</p>
+                    <div class="article-source">📎 Source : GitHub Blog</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Mars 2025</span>
+                        <span class="article-tag">Kubernetes</span>
+                    </div>
+                    <h3 class="article-title">K3s : Kubernetes léger pour le edge computing et les homelabs</h3>
+                    <p class="article-summary">K3s de Rancher s'impose comme la solution Kubernetes légère de référence pour les environnements à ressources limitées. Avec moins de 512 Mo de RAM nécessaires, il est idéal pour les homelabs, les Raspberry Pi et le edge computing.</p>
+                    <div class="article-source">📎 Source : CNCF Blog</div>
+                </article>
+
+                <article class="article-card">
+                    <div class="article-meta">
+                        <span class="article-date">Jan. 2025</span>
+                        <span class="article-tag">Sécurité</span>
+                    </div>
+                    <h3 class="article-title">Supply chain attacks : sécuriser la chaîne de build des conteneurs</h3>
+                    <p class="article-summary">Les attaques de supply chain ciblant les images Docker et les registries se multiplient. L'article détaille les bonnes pratiques : signature d'images (Cosign/Sigstore), SBOM (Software Bill of Materials) et politiques d'admission Kubernetes.</p>
+                    <div class="article-source">📎 Source : ANSSI / CNCF</div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="parcours.html">Parcours</a></li>
+                        <li><a href="realisations.html">Réalisations</a></li>
+                        <li><a href="epreuves.html">Épreuves</a></li>
+                        <li><a href="veille.html">Veille</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:tomdaluzeau@gmail.com">tomdaluzeau@gmail.com</a></li>
+                        <li><a href="tel:+33767694404">07 67 69 44 04</a></li>
+                        <li>Villers-sur-Marne (94350)</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Réseaux</h3>
+                    <div class="footer-social">
+                        <a href="https://github.com/tmdlz" target="_blank" rel="noopener" title="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/daluzeautom/" target="_blank" rel="noopener" title="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Tom Daluzeau • Portfolio BTS SIO SISR • Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="styles/global.css">
     <link rel="stylesheet" href="styles/realisations.css">
     <script src="scripts/theme-toggle.js"></script>
-
 </head>
 <body>
     <!-- NAVIGATION -->
@@ -17,9 +16,11 @@
             <a href="index.html" class="navbar-brand">tom.daluzeau</a>
             <button class="navbar-toggle" id="navToggle">☰</button>
             <ul class="navbar-menu" id="navMenu">
-                <li><a href="index.html" class="active">Accueil</a></li>
+                <li><a href="index.html">Accueil</a></li>
                 <li><a href="parcours.html">Parcours</a></li>
-                <li><a href="realisations.html">Réalisations</a></li>
+                <li><a href="realisations.html" class="active">Réalisations</a></li>
+                <li><a href="epreuves.html">Épreuves</a></li>
+                <li><a href="veille.html">Veille</a></li>
                 <li><a href="contact.html">Contact</a></li>
             </ul>
             <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
@@ -33,7 +34,7 @@
         </div>
     </nav>
 
-    <!-- END NAV -->
+    <!-- HEADER -->
     <section class="section">
         <div class="container-narrow">
             <div class="terminal-box">
@@ -59,100 +60,146 @@
     <section class="section">
         <div class="container">
             <div class="projects-grid">
-                <!-- Projet 1 : CI/CD DevOps -->
-                <a href="proxmox-secure-lab.html" target="_blank" rel="noopener" class="project-card">
+
+                <!-- Projet 1 : Proxmox Secure Lab -->
+                <a href="proxmox-secure-lab.html" class="project-card">
                     <div class="project-header">
                         <div class="project-icon">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/>
                             </svg>
                         </div>
-                        <span class="project-status status-progress">⚡ EN COURS</span>
+                        <span class="project-status status-progress">En cours</span>
                     </div>
-                    <h3 class="project-title">Plateforme CI/CD DevOps</h3>
+                    <h3 class="project-title">Proxmox Secure Lab</h3>
                     <p class="project-description">
-                        Pipeline d'intégration et déploiement continu avec monitoring complet, tests automatisés et infrastructure as code. 
-                        Configuration de workflows GitHub Actions pour automatiser les builds, tests et déploiements.
+                        Homelab sécurisé sur Proxmox avec segmentation VLANs, firewall pfSense, pipeline CI/CD
+                        (Forgejo + Woodpecker CI), monitoring (Grafana + VictoriaMetrics), conteneurs LXC et backup NAS chiffré.
                     </p>
                     <div class="project-tech">
+                        <span class="tech-tag">Proxmox</span>
+                        <span class="tech-tag">pfSense</span>
                         <span class="tech-tag">Docker</span>
-                        <span class="tech-tag">GitHub Actions</span>
-                        <span class="tech-tag">Prometheus</span>
+                        <span class="tech-tag">LXC</span>
                         <span class="tech-tag">Grafana</span>
-                        <span class="tech-tag">Terraform</span>
+                        <span class="tech-tag">Ansible</span>
                     </div>
                     <div class="project-footer">
-                        <span class="project-link-text">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            bientôt sur GitHub
-                        </span>
+                        <span class="project-link-text">Voir l'architecture</span>
                         <svg class="project-arrow" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
                         </svg>
                     </div>
                 </a>
 
-                <!-- Projet 5 : Placeholder -->
-                <a href="https://github.com/tmdlz" target="_blank" rel="noopener" class="project-card project-placeholder">
+                <!-- Projet 2 : Déploiement serveur Kali -->
+                <div class="project-card">
                     <div class="project-header">
                         <div class="project-icon">
                             <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                <path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"/>
                             </svg>
                         </div>
-                        <span class="project-status status-coming">🔜 BIENTÔT</span>
+                        <span class="project-status status-done">Terminé</span>
                     </div>
-                    <h3 class="project-title">Projet à venir</h3>
+                    <h3 class="project-title">Déploiement serveur sécurisé — Kali</h3>
                     <p class="project-description">
-                        Documentation en cours de préparation. Ce projet sera bientôt disponible avec tous les détails techniques et le code source.
+                        Installation et configuration d'un serveur Debian en production pour une start-up : VPN Tailscale,
+                        GLPI (inventaire IT), Nextcloud (cloud privé), hardening SSH et mises à jour automatisées.
                     </p>
                     <div class="project-tech">
-                        <span class="tech-tag">À définir</span>
+                        <span class="tech-tag">Debian</span>
+                        <span class="tech-tag">Tailscale VPN</span>
+                        <span class="tech-tag">GLPI</span>
+                        <span class="tech-tag">Nextcloud</span>
+                        <span class="tech-tag">SSH</span>
                     </div>
                     <div class="project-footer">
-                        <span class="project-link-text">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        <span class="project-link-text">Alternance — Kali (2024)</span>
+                    </div>
+                </div>
+
+                <!-- Projet 3 : Automatisation sauvegardes -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
                             </svg>
-                            Voir sur GitHub
-                        </span>
+                        </div>
+                        <span class="project-status status-done">Terminé</span>
+                    </div>
+                    <h3 class="project-title">Automatisation des sauvegardes</h3>
+                    <p class="project-description">
+                        Scripts Bash de sauvegarde automatisée avec rotation, compression et chiffrement.
+                        Planification via cron, notification par email en cas d'échec. Documenté et versionné.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Bash</span>
+                        <span class="tech-tag">Cron</span>
+                        <span class="tech-tag">GPG</span>
+                        <span class="tech-tag">rsync</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-link-text">Alternance — Kali (2024)</span>
+                    </div>
+                </div>
+
+                <!-- Projet 4 : Sécurisation WordPress -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                            </svg>
+                        </div>
+                        <span class="project-status status-done">Terminé</span>
+                    </div>
+                    <h3 class="project-title">Sécurisation site e-commerce WordPress</h3>
+                    <p class="project-description">
+                        Audit et sécurisation d'un site WordPress e-commerce : blocage d'IPs malveillantes,
+                        protection wp-admin, masquage des URLs d'administration, formation du personnel aux bonnes pratiques.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">WordPress</span>
+                        <span class="tech-tag">Sécurité web</span>
+                        <span class="tech-tag">htaccess</span>
+                        <span class="tech-tag">Fail2ban</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-link-text">Alternance — Kali (2024)</span>
+                    </div>
+                </div>
+
+                <!-- Projet 5 : Dashboard IT -->
+                <a href="dashboard-build/index.html" class="project-card">
+                    <div class="project-header">
+                        <div class="project-icon">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                            </svg>
+                        </div>
+                        <span class="project-status status-done">Terminé</span>
+                    </div>
+                    <h3 class="project-title">Dashboard Marché IT IDF 2026</h3>
+                    <p class="project-description">
+                        Analyse interactive de 28 500+ offres d'emploi IT en Île-de-France. Dashboard React avec
+                        visualisations Recharts : technologies demandées, salaires par techno, niveaux d'expérience.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Recharts</span>
+                        <span class="tech-tag">Vite</span>
+                        <span class="tech-tag">Data Analysis</span>
+                    </div>
+                    <div class="project-footer">
+                        <span class="project-link-text">Voir le dashboard</span>
                         <svg class="project-arrow" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
                         </svg>
                     </div>
                 </a>
 
-                <!-- Projet 6 : Placeholder -->
-                <a href="https://github.com/tmdlz" target="_blank" rel="noopener" class="project-card project-placeholder">
-                    <div class="project-header">
-                        <div class="project-icon">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                            </svg>
-                        </div>
-                        <span class="project-status status-coming">🔜 BIENTÔT</span>
-                    </div>
-                    <h3 class="project-title">Projet à venir</h3>
-                    <p class="project-description">
-                        Documentation en cours de préparation. Ce projet sera bientôt disponible avec tous les détails techniques et le code source.
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">À définir</span>
-                    </div>
-                    <div class="project-footer">
-                        <span class="project-link-text">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                            Voir sur GitHub
-                        </span>
-                        <svg class="project-arrow" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                        </svg>
-                    </div>
-                </a>
             </div>
         </div>
     </section>
@@ -167,11 +214,11 @@
                         <li><a href="index.html">Accueil</a></li>
                         <li><a href="parcours.html">Parcours</a></li>
                         <li><a href="realisations.html">Réalisations</a></li>
-                        <li><a href="competences.html">Compétences</a></li>
+                        <li><a href="epreuves.html">Épreuves</a></li>
+                        <li><a href="veille.html">Veille</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
-                
                 <div class="footer-section">
                     <h3>Contact</h3>
                     <ul class="footer-links">
@@ -180,7 +227,6 @@
                         <li>Villers-sur-Marne (94350)</li>
                     </ul>
                 </div>
-                
                 <div class="footer-section">
                     <h3>Réseaux</h3>
                     <div class="footer-social">
@@ -197,18 +243,15 @@
                     </div>
                 </div>
             </div>
-            
             <div class="footer-bottom">
                 <p>&copy; 2025 Tom Daluzeau • Portfolio BTS SIO SISR • Tous droits réservés</p>
             </div>
         </div>
     </footer>
 
-    <!-- Script pour menu mobile -->
     <script>
         const navToggle = document.getElementById('navToggle');
         const navMenu = document.getElementById('navMenu');
-        
         navToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
         });
