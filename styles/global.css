@@ -121,13 +121,11 @@ body {
    =========================== */
 .navbar {
     background: var(--bg-light);
-    border-bottom: 2px solid transparent;
-    border-image: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-purple)) 1;
+    border-bottom: 1px solid var(--border);
     padding: var(--spacing-md) 0;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: var(--shadow-sm);
 }
 
 .navbar .container {
@@ -267,8 +265,7 @@ body {
    =========================== */
 .footer {
     background: var(--bg-card);
-    border-top: 2px solid transparent;
-    border-image: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-purple)) 1;
+    border-top: 1px solid var(--border);
     padding: var(--spacing-xl) 0 var(--spacing-lg);
     margin-top: var(--spacing-xl);
 }
@@ -361,14 +358,10 @@ body {
 }
 
 .section-title {
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.75rem;
+    font-weight: 600;
     color: var(--text-primary);
     margin-bottom: var(--spacing-xs);
-    background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-green) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
 }
 
 .section-subtitle {
@@ -386,9 +379,7 @@ body {
 }
 
 .card:hover {
-    box-shadow: var(--shadow-md);
-    transform: translateY(-2px);
-    border-left-color: var(--accent-blue);
+    box-shadow: var(--shadow-sm);
 }
 
 /* ===========================
@@ -564,18 +555,18 @@ body {
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    opacity: 0.09;
+    opacity: 0.04;
     background-repeat: repeat;
-    animation: bgPatternDrift 25s ease-in-out infinite;
+    animation: bgPatternDrift 60s ease-in-out infinite;
 }
 
 [data-theme="dark"] .page-bg-pattern {
-    opacity: 0.14;
+    opacity: 0.06;
 }
 
 @keyframes bgPatternDrift {
     0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-20px, -20px); }
+    50% { transform: translate(-5px, -5px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
