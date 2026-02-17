@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sécurisation d'un site WordPress e-commerce - Audit, hardening, bonnes pratiques">
+    <title>Sécurisation WordPress | Tom Daluzeau</title>
+    <link rel="stylesheet" href="styles/global.css">
+    <link rel="stylesheet" href="styles/proxmox-secure-lab.css">
+    <script src="scripts/theme-toggle.js"></script>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="navbar-brand">tom.daluzeau</a>
+            <button class="navbar-toggle" id="navToggle">☰</button>
+            <ul class="navbar-menu" id="navMenu">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="parcours.html">Parcours</a></li>
+                <li><a href="realisations.html" class="active">Réalisations</a></li>
+                <li><a href="epreuves.html">Épreuves</a></li>
+                <li><a href="veille.html">Veille</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+                <svg class="sun-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
+                </svg>
+                <svg class="moon-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 2c-1.05 0-2.05.16-3 .46 4.06 1.27 7 5.06 7 9.54 0 4.48-2.94 8.27-7 9.54.95.3 1.95.46 3 .46 5.52 0 10-4.48 10-10S14.52 2 9 2z"/>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- HEADER -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="terminal-box">
+                <div class="terminal-bar">
+                    <div class="terminal-dots">
+                        <span class="terminal-dot red"></span>
+                        <span class="terminal-dot yellow"></span>
+                        <span class="terminal-dot green"></span>
+                    </div>
+                    <span class="terminal-title">~/projects/securisation-wordpress</span>
+                </div>
+                <div class="terminal-content">
+                    <div class="page-header">
+                        <h1 class="page-title">Sécurisation site e-commerce WordPress</h1>
+                        <p class="page-subtitle">Audit de sécurité et hardening d'un site WordPress en production</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-meta-grid">
+                <div class="meta-card">
+                    <div class="meta-card-label">Statut</div>
+                    <div class="meta-card-value">Terminé</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-card-label">Période</div>
+                    <div class="meta-card-value">Nov. – Déc. 2024</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-card-label">Contexte</div>
+                    <div class="meta-card-value">Alternance — Kali</div>
+                </div>
+                <div class="meta-card">
+                    <div class="meta-card-label">Type</div>
+                    <div class="meta-card-value">Cybersécurité</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTEXTE -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Contexte du projet</h2>
+                </div>
+                <div class="project-context">
+                    <p>
+                        Le site e-commerce WordPress de Kali subissait des <strong>tentatives d'intrusion régulières</strong> :
+                        attaques brute-force sur la page de connexion, tentatives d'accès aux fichiers sensibles,
+                        scan automatisé des vulnérabilités par des bots.
+                    </p>
+                    <p style="margin-top: 0.75rem;">
+                        Ma mission a été de réaliser un <strong>audit de sécurité complet</strong> du site, puis de mettre en place
+                        un ensemble de mesures de protection pour <strong>réduire la surface d'attaque</strong> et
+                        <strong>sensibiliser l'équipe aux bonnes pratiques</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- OBJECTIFS -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Objectifs</h2>
+                </div>
+                <ul class="objectives-list">
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Auditer l'état de sécurité du site WordPress (plugins, thème, configuration serveur)
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Bloquer les attaques brute-force et les IPs malveillantes
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Protéger et masquer la page d'administration (wp-admin)
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Mettre en place des headers de sécurité HTTP
+                    </li>
+                    <li>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                        Former le personnel aux bonnes pratiques de sécurité (mots de passe, mises à jour)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ÉTAPES -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Étapes de réalisation</h2>
+                </div>
+                <div class="steps-list">
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h4>Audit de sécurité initial</h4>
+                            <p>Analyse des logs d'accès pour identifier les tentatives d'intrusion. Vérification des versions WordPress, plugins et thèmes. Identification des fichiers exposés et des configurations à risque.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h4>Blocage des IPs malveillantes</h4>
+                            <p>Analyse des logs pour identifier les IPs récurrentes. Configuration de règles .htaccess pour bloquer les IPs et plages d'adresses identifiées. Mise en place de Fail2ban pour le blocage automatique.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h4>Protection de wp-admin</h4>
+                            <p>Changement de l'URL d'administration par défaut. Restriction d'accès par IP via .htaccess. Limitation des tentatives de connexion. Désactivation de l'éditeur de fichiers intégré.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h4>Hardening de la configuration</h4>
+                            <p>Désactivation du listing des répertoires. Ajout des headers de sécurité (X-Frame-Options, X-Content-Type-Options, CSP). Protection du fichier wp-config.php. Désactivation de XML-RPC.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">5</div>
+                        <div class="step-content">
+                            <h4>Mises à jour et nettoyage</h4>
+                            <p>Mise à jour de WordPress, des plugins et du thème vers les dernières versions. Suppression des plugins et thèmes inutilisés. Activation des mises à jour automatiques mineures.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-number">6</div>
+                        <div class="step-content">
+                            <h4>Formation et sensibilisation</h4>
+                            <p>Formation des collaborateurs : politique de mots de passe forts, reconnaissance du phishing, procédure de signalement d'incidents, bonnes pratiques d'utilisation du back-office.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TECHNOLOGIES -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Technologies utilisées</h2>
+                </div>
+                <div class="tech-stack-grid">
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">📝</div>
+                        <div>
+                            <div class="tech-stack-name">WordPress</div>
+                            <div class="tech-stack-role">CMS e-commerce cible</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">🔧</div>
+                        <div>
+                            <div class="tech-stack-name">.htaccess</div>
+                            <div class="tech-stack-role">Règles de sécurité Apache</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">🛡️</div>
+                        <div>
+                            <div class="tech-stack-name">Fail2ban</div>
+                            <div class="tech-stack-role">Blocage automatique des IPs</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">🔒</div>
+                        <div>
+                            <div class="tech-stack-name">Headers HTTP</div>
+                            <div class="tech-stack-role">X-Frame-Options, CSP, HSTS</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">📊</div>
+                        <div>
+                            <div class="tech-stack-name">Analyse de logs</div>
+                            <div class="tech-stack-role">Identification des menaces</div>
+                        </div>
+                    </div>
+                    <div class="tech-stack-item">
+                        <div class="tech-stack-icon">🎓</div>
+                        <div>
+                            <div class="tech-stack-name">Sensibilisation</div>
+                            <div class="tech-stack-role">Formation des utilisateurs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPÉTENCES BTS -->
+    <section class="section">
+        <div class="container-narrow">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Compétences BTS mobilisées</h2>
+                </div>
+                <div class="competences-bts">
+                    <div class="competence-row">
+                        <code class="blue">B1.6</code>
+                        <span>Organiser son développement professionnel — Veille sur les vulnérabilités WordPress, OWASP</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="red">B3.1</code>
+                        <span>Protéger les données — Protection des données clients e-commerce, conformité RGPD</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="red">B3.2</code>
+                        <span>Sécuriser les équipements — Hardening WordPress, Fail2ban, headers HTTP, blocage IPs</span>
+                    </div>
+                    <div class="competence-row">
+                        <code class="red">B3.3</code>
+                        <span>Sécuriser les échanges — HTTPS, headers de sécurité, désactivation XML-RPC</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RETOUR -->
+    <section class="section">
+        <div class="container-narrow text-center">
+            <a href="realisations.html" class="btn btn-secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/>
+                </svg>
+                Retour aux réalisations
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Navigation</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Accueil</a></li>
+                        <li><a href="parcours.html">Parcours</a></li>
+                        <li><a href="realisations.html">Réalisations</a></li>
+                        <li><a href="epreuves.html">Épreuves</a></li>
+                        <li><a href="veille.html">Veille</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="mailto:tomdaluzeau@gmail.com">tomdaluzeau@gmail.com</a></li>
+                        <li><a href="tel:+33767694404">07 67 69 44 04</a></li>
+                        <li>Villers-sur-Marne (94350)</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Réseaux</h3>
+                    <div class="footer-social">
+                        <a href="https://github.com/tmdlz" target="_blank" rel="noopener" title="GitHub">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/in/daluzeautom/" target="_blank" rel="noopener" title="LinkedIn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Tom Daluzeau &bull; Portfolio BTS SIO SISR &bull; Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const navToggle = document.getElementById('navToggle');
+        const navMenu = document.getElementById('navMenu');
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

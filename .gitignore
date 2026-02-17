@@ -1,0 +1,16 @@
+# Claude Code
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor
+.vscode/
+*.swp
+*.swo
+*~
+
+# Large assets (optional - uncomment if needed)
+# assets/DevOps-Roadmap-v4.pdf
