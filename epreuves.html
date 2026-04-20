@@ -1,409 +1,1486 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Épreuves BTS SIO SISR - Tableau de synthèse E4, E5, E6 - Tom Daluzeau">
-    <title>Épreuves BTS SIO | Tom Daluzeau</title>
-    <link rel="stylesheet" href="styles/global.css">
-    <link rel="stylesheet" href="styles/epreuves.css">
-    <script src="scripts/theme-toggle.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Épreuve E4 — Portfolio ConseilPro</title>
+  <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text-primary: #1d1d1f;
+      --text-secondary: #6e6e73;
+      --text-tertiary: #86868b;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --border: #e5e5e7;
+      --border-light: #f0f0f2;
+      --tag-bg: #f5f5f7;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.08);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --radius-xs: 6px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Helvetica Neue', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(250,250,250,0.85);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-decoration: none;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+
+    .nav-back:hover { opacity: 0.7; }
+
+    /* Hero */
+    .hero {
+      padding: 140px 40px 80px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px;
+      background: var(--tag-bg);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 700;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .hero p {
+      font-size: 19px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      line-height: 1.5;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Sommaire */
+    .sommaire {
+      max-width: 800px;
+      margin: 0 auto 60px;
+      padding: 0 40px;
+    }
+
+    .sommaire-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .sommaire-grid {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .sommaire-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 24px;
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: background 0.2s ease;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .sommaire-item:last-child {
+      border-bottom: none;
+    }
+
+    .sommaire-item:hover {
+      background: var(--tag-bg);
+    }
+
+    .sommaire-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--text-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .sommaire-label {
+      flex: 1;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: -0.1px;
+    }
+
+    .sommaire-arrow {
+      flex-shrink: 0;
+      color: var(--text-tertiary);
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .sommaire-item:hover .sommaire-arrow {
+      transform: translateX(3px);
+      color: var(--accent);
+    }
+
+    /* Main */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 40px 100px;
+    }
+
+    /* Competence Section */
+    .competence {
+      margin-bottom: 80px;
+    }
+
+    .competence-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .competence-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--text-primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .competence-title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: var(--text-primary);
+    }
+
+    /* Sub-competence Card */
+    .sub-competence {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 36px;
+      margin-bottom: 28px;
+      transition: box-shadow 0.3s ease, transform 0.2s ease;
+    }
+
+    .sub-competence:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .sub-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      gap: 16px;
+    }
+
+    .sub-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: -0.2px;
+    }
+
+    .sub-tag {
+      padding: 4px 12px;
+      background: var(--tag-bg);
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .sub-description {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    /* Image Grid */
+    .image-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .image-grid.grid-1 { grid-template-columns: 1fr; }
+    .image-grid.grid-2 { grid-template-columns: 1fr 1fr; }
+    .image-grid.grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .image-grid.grid-4 { grid-template-columns: 1fr 1fr; }
+
+    .image-slot {
+      position: relative;
+      background: var(--tag-bg);
+      border-radius: var(--radius-sm);
+      border: 2px dashed var(--border);
+      overflow: hidden;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s, background 0.2s;
+      cursor: pointer;
+    }
+
+    .image-slot:hover {
+      border-color: var(--accent);
+      background: #f0f4ff;
+    }
+
+    .image-slot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      display: none;
+    }
+
+    .image-slot.has-image img {
+      display: block;
+    }
+
+    .image-slot.has-image .placeholder {
+      display: none;
+    }
+
+    .placeholder {
+      text-align: center;
+    }
+
+    .placeholder-icon {
+      width: 32px;
+      height: 32px;
+      margin: 0 auto 6px;
+      opacity: 0.3;
+    }
+
+    .placeholder-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-tertiary);
+    }
+
+    .image-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      color: white;
+      font-size: 11px;
+      font-weight: 500;
+      border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+    }
+
+    /* Tools Tags */
+    .tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 16px;
+    }
+
+    .tool-tag {
+      padding: 4px 10px;
+      background: var(--tag-bg);
+      border-radius: var(--radius-xs);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    /* Lightbox */
+    .lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      cursor: zoom-out;
+      padding: 40px;
+    }
+
+    .lightbox-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lightbox-overlay img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      object-fit: contain;
+      transform: scale(0.92);
+      transition: transform 0.25s ease;
+    }
+
+    .lightbox-overlay.active img {
+      transform: scale(1);
+    }
+
+    .lightbox-caption {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.8);
+      font-size: 13px;
+      font-weight: 500;
+      background: rgba(0,0,0,0.5);
+      padding: 6px 16px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .lightbox-close:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .lightbox-hint {
+      position: absolute;
+      top: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.5);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .image-slot.has-image {
+      cursor: zoom-in;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 34px; }
+      .hero { padding: 120px 20px 60px; }
+      .main { padding: 0 20px 60px; }
+      .nav-inner { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .image-grid.grid-2,
+      .image-grid.grid-3,
+      .image-grid.grid-4 { grid-template-columns: 1fr; }
+      .sub-competence { padding: 24px; }
+      .competence-title { font-size: 22px; }
+      .sommaire { padding: 0 20px; }
+      .sommaire-item { padding: 14px 18px; }
+      .sommaire-label { font-size: 14px; }
+    }
+  </style>
 </head>
 <body>
-    <div class="page-bg-pattern"></div>
-    <!-- NAVIGATION -->
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="navbar-brand">tom.daluzeau</a>
-            <button class="navbar-toggle" id="navToggle">☰</button>
-            <ul class="navbar-menu" id="navMenu">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="parcours.html">Parcours</a></li>
-                <li><a href="realisations.html">Réalisations</a></li>
-                <li><a href="epreuves.html" class="active">Épreuves</a></li>
-                <li><a href="veille.html">Veille</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- HEADER -->
-    <section class="section">
-        <div class="container-narrow">
-            <div class="terminal-box">
-                <div class="terminal-bar">
-                    <div class="terminal-dots">
-                        <span class="terminal-dot red"></span>
-                        <span class="terminal-dot yellow"></span>
-                        <span class="terminal-dot green"></span>
-                    </div>
-                    <span class="terminal-title">~/portfolio/epreuves-bts.sh</span>
-                </div>
-                <div class="terminal-content">
-                    <div class="page-header">
-                        <h1 class="page-title">Épreuves BTS SIO SISR</h1>
-                        <p class="page-subtitle">Tableau de synthèse, situations professionnelles et compétences mobilisées</p>
-                    </div>
-                </div>
-            </div>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-back" title="Retour au portfolio">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        Retour
+      </a>
+      <a href="#" class="nav-brand">ConseilPro</a>
+      <ul class="nav-links">
+        <li><a href="#c1">Patrimoine</a></li>
+        <li><a href="#c2">Incidents</a></li>
+        <li><a href="#c3">Présence en ligne</a></li>
+        <li><a href="#c4">Mode projet</a></li>
+        <li><a href="#c5">Mise à disposition</a></li>
+        <li><a href="#c6">Développement pro</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">BTS SIO SISR — Session 2026</div>
+    <h1>Épreuve E5</h1>
+    <p>Support et mise à disposition de services informatiques — Portfolio de compétences réalisé dans le cadre du projet ConseilPro.</p>
+  </section>
+
+  <!-- Sommaire -->
+  <section class="sommaire">
+    <div class="sommaire-title">Sommaire des compétences</div>
+    <div class="sommaire-grid">
+      <a href="#c1" class="sommaire-item">
+        <span class="sommaire-number">1</span>
+        <span class="sommaire-label">Gérer le patrimoine informatique</span>
+        <svg class="sommaire-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a href="#c2" class="sommaire-item">
+        <span class="sommaire-number">2</span>
+        <span class="sommaire-label">Répondre aux incidents et aux demandes d'assistance et d'évolution</span>
+        <svg class="sommaire-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a href="#c3" class="sommaire-item">
+        <span class="sommaire-number">3</span>
+        <span class="sommaire-label">Développer la présence en ligne de l'organisation</span>
+        <svg class="sommaire-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a href="#c4" class="sommaire-item">
+        <span class="sommaire-number">4</span>
+        <span class="sommaire-label">Travailler en mode projet</span>
+        <svg class="sommaire-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a href="#c5" class="sommaire-item">
+        <span class="sommaire-number">5</span>
+        <span class="sommaire-label">Mettre à disposition des utilisateurs un service informatique</span>
+        <svg class="sommaire-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a href="#c6" class="sommaire-item">
+        <span class="sommaire-number">6</span>
+        <span class="sommaire-label">Organiser son développement professionnel</span>
+        <svg class="sommaire-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- COMPÉTENCE 1 : Gérer le patrimoine     -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="competence" id="c1">
+      <div class="competence-header">
+        <div class="competence-number">1</div>
+        <h2 class="competence-title">Gérer le patrimoine informatique</h2>
+      </div>
+
+      <!-- 1.1 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Recenser et identifier les ressources numériques</h3>
+          <span class="sub-tag">Inventaire</span>
         </div>
+        <p class="sub-description">Recensement exhaustif du parc informatique ConseilPro à l'aide de GLPI.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Dashboard GLPI — Vue d'ensemble du parc</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Dashboard GLPI">
+            <div class="image-caption">Dashboard GLPI</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Liste des assets — Assets → Computers</div>
+            </div>
+            <img src="assets/E5/Liste_complète_des_équipements.png" alt="Liste assets GLPI">
+            <div class="image-caption">Liste complète des équipements</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">GLPI</span>
+          <span class="tool-tag">Data Injection</span>
+          <span class="tool-tag">CSV Import</span>
+        </div>
+      </div>
+
+      <!-- 1.2 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Exploiter des référentiels, normes et standards adoptés</h3>
+          <span class="sub-tag">Normes</span>
+        </div>
+        <p class="sub-description">L'infrastructure ConseilPro mobilise plusieurs normes et standards : IEEE 802.1Q (VLANs), RFC 1918 (adressage privé).</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">VLANs OPNsense — IEEE 802.1Q</div>
+            </div>
+            <img src="assets/E5/IEEE_803.1Q.pdf" alt="VLANs OPNsense">
+            <div class="image-caption">Interfaces VLAN — IEEE 802.1Q</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Plan d'adressage — RFC 1918</div>
+            </div>
+            <img src="assets/E5/Standard_RFC_1918.pdf" alt="Plan adressage">
+            <div class="image-caption">Adressage privé 10.10.x.0/24</div>
+          </div>
+        
+        </div>
+        <div class="tools">
+          <span class="tool-tag">IEEE 802.1Q</span>
+          <span class="tool-tag">RFC 1918</span>
+        </div>
+      </div>
+
+      <!-- 1.3 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Mettre en place et vérifier les niveaux d'habilitation associés à un service</h3>
+          <span class="sub-tag">Habilitations</span>
+        </div>
+        <p class="sub-description">Application du principe du moindre privilège à chaque couche : réseau (isolation VLAN via OPNsense), système (OUs Active Directory, droits Samba read-only), applicatif (profils GLPI différenciés).</p>
+        <div class="image-grid grid-4">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Active Directory — OUs par département</div>
+            </div>
+            <img src="assets/E5/OUs.png" alt="AD OUs">
+            <div class="image-caption">OUs : IT, RH, Commerciaux, Juridique, Cyber</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Samba — smb.conf read only</div>
+            </div>
+            <img src="assets/E5/smb.conf.pdf" alt="Samba config">
+            <div class="image-caption">read only = yes, valid users = @Utilisateurs</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Active Directory</span>
+          <span class="tool-tag">Samba</span>
+        </div>
+      </div>
+
+      <!-- 1.4 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Vérifier les conditions de la continuité d'un service informatique</h3>
+          <span class="sub-tag">Continuité</span>
+        </div>
+        <p class="sub-description">Mise en place de mécanismes garantissant la disponibilité des services.</p>
+        <div class="image-grid grid-4">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">systemctl status — service enabled</div>
+            </div>
+            <img src="assets/E5/system_ctl_zabbix_server.png" alt="systemctl enabled">
+            <div class="image-caption">Service enabled — redémarrage auto</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Zabbix — Dashboard supervision</div>
+            </div>
+            <img src="assets/E5/zabbix_dashoard.png" alt="Zabbix dashboard">
+            <div class="image-caption">Monitoring des hosts ConseilPro</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Proxmox — Start at boot</div>
+            </div>
+            <img src="assets/E5/start_at_boot.pdf" alt="Proxmox start boot">
+            <div class="image-caption">Options VM/CT — Start at boot: Yes</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Tailscale — Accès distant</div>
+            </div>
+            <img src="assets/E5/tailscale.png" alt="Tailscale machines">
+            <div class="image-caption">VPN Tailscale — maintenance à distance</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">systemd</span>
+          <span class="tool-tag">Zabbix 7.0</span>
+          <span class="tool-tag">Proxmox VE</span>
+          <span class="tool-tag">Tailscale</span>
+        </div>
+      </div>
+
+      <!-- 1.5 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Gérer des sauvegardes</h3>
+          <span class="sub-tag">Sauvegardes</span>
+        </div>
+        <p class="sub-description">Plan de sauvegarde opérationnel via Proxmox Backup Server (PBS). Datastore hdd-backup de 916 Go. Politique de rétention : daily=7, weekly=4, monthly=3. Tests de restauration effectués et documentés.</p>
+        <div class="image-grid grid-3">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">PBS — Datastore hdd-backup</div>
+            </div>
+            <img src="assets/E5/dashboard_proxmox_backup_server.png" alt="PBS datastore">
+            <div class="image-caption">Datastore hdd-backup — 916 Go</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">PBS — Politique de rétention</div>
+            </div>
+            <img src="assets/E5/proxmox_backup_server_backup_sucess.png" alt="PBS retention">
+            <div class="image-caption">Rétention : 7 daily, 4 weekly, 3 monthly</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">PBS — Test de restauration</div>
+            </div>
+            <img src="assets/E5/backup_promox_backup_server.png" alt="PBS restore test">
+            <div class="image-caption">Test de restauration réussi</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Proxmox Backup Server</span>
+          <span class="tool-tag">NVMe 1 To</span>
+          <span class="tool-tag">Rétention GFS</span>
+        </div>
+      </div>
+
+      <!-- 1.6 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Vérifier le respect des règles d'utilisation des ressources numériques</h3>
+          <span class="sub-tag">Conformité</span>
+        </div>
+        <p class="sub-description">Vérification des accès et des droits : audit des comptes utilisateurs GLPI et Active Directory, contrôle des rôles attribués, détection des écarts par rapport aux règles d'utilisation définies.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">GLPI — Administration → Users</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="GLPI users">
+            <div class="image-caption">Audit des comptes et rôles GLPI</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">AD — Utilisateurs et groupes</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="AD users">
+            <div class="image-caption">Contrôle des comptes Active Directory</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">GLPI</span>
+          <span class="tool-tag">Active Directory</span>
+          <span class="tool-tag">Audit des droits</span>
+        </div>
+      </div>
     </section>
 
-    <!-- E4 -->
-    <section class="section">
-        <div class="container-narrow">
-            <div class="epreuve-block">
-                <div class="epreuve-header">
-                    <span class="epreuve-code e4">E4</span>
-                    <span class="epreuve-title">Support et mise à disposition de services informatiques</span>
-                    <span class="epreuve-coeff">Coeff. 4 — Oral 40 min</span>
-                </div>
-                <div class="epreuve-body">
-                    <p class="epreuve-desc">
-                        Présentation du parcours professionnel, des réalisations en milieu professionnel et de la veille technologique.
-                        Le candidat s'appuie sur un portfolio de compétences et un tableau de synthèse.
-                    </p>
-                    <h3 class="section-title mb-md" style="font-size: 1.125rem;">Tableau de synthèse — Situations professionnelles</h3>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- COMPÉTENCE 2 : Répondre aux incidents  -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="competence" id="c2">
+      <div class="competence-header">
+        <div class="competence-number">2</div>
+        <h2 class="competence-title">Répondre aux incidents et aux demandes d'assistance et d'évolution</h2>
+      </div>
 
-                    <!-- Download button -->
-                    <div class="sheet-actions">
-                        <a href="assets/Tableau-de-synthese-Daluzeau-Tom.xlsx" download class="document-link">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-                            Télécharger le tableau de synthèse
-                            <span class="doc-format">XLSX</span>
-                        </a>
-                    </div>
-
-                    <!-- Tableau HTML visible -->
-                    <div style="overflow-x: auto;">
-                        <table class="synthese-table">
-                            <thead>
-                                <tr>
-                                    <th>Situation professionnelle</th>
-                                    <th>Contexte</th>
-                                    <th>Période</th>
-                                    <th>Compétences</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="situation-title">Déploiement serveur sécurisé</td>
-                                    <td>Kali (alternance) — Installation serveur Debian, Tailscale VPN, GLPI, Nextcloud</td>
-                                    <td>Sept.–Déc. 2024</td>
-                                    <td>
-                                        <span class="competence-tag blue">B1.1</span>
-                                        <span class="competence-tag blue">B1.2</span>
-                                        <span class="competence-tag blue">B1.4</span>
-                                        <span class="competence-tag green">B2.1</span>
-                                        <span class="competence-tag red">B3.1</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Automatisation des sauvegardes</td>
-                                    <td>Kali (alternance) — Scripts Bash, rotation, sauvegardes automatisées</td>
-                                    <td>Oct.–Nov. 2024</td>
-                                    <td>
-                                        <span class="competence-tag blue">B1.3</span>
-                                        <span class="competence-tag blue">B1.5</span>
-                                        <span class="competence-tag green">B2.2</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Sécurisation site e-commerce WordPress</td>
-                                    <td>Kali (alternance) — Blocage IPs, protection wp-admin, bonnes pratiques</td>
-                                    <td>Nov.–Déc. 2024</td>
-                                    <td>
-                                        <span class="competence-tag red">B3.1</span>
-                                        <span class="competence-tag red">B3.2</span>
-                                        <span class="competence-tag blue">B1.6</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Proxmox Secure Lab</td>
-                                    <td>Projet personnel — Homelab segmenté, VLANs, pfSense, CI/CD, monitoring</td>
-                                    <td>Jan.–Juil. 2025</td>
-                                    <td>
-                                        <span class="competence-tag green">B2.1</span>
-                                        <span class="competence-tag green">B2.2</span>
-                                        <span class="competence-tag green">B2.3</span>
-                                        <span class="competence-tag red">B3.1</span>
-                                        <span class="competence-tag red">B3.2</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Dashboard Marché IT IDF</td>
-                                    <td>Projet personnel — Analyse de 28 500+ offres d'emploi, dashboard React interactif</td>
-                                    <td>2025</td>
-                                    <td>
-                                        <span class="competence-tag blue">B1.1</span>
-                                        <span class="competence-tag blue">B1.4</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Veille technologique</td>
-                                    <td>BTS SIO — Conteneurisation & orchestration cloud (Docker, Kubernetes)</td>
-                                    <td>2024–2026</td>
-                                    <td>
-                                        <span class="competence-tag blue">B1.6</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+      <!-- 2.1 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Collecter, suivre et orienter des demandes</h3>
+          <span class="sub-tag">Ticketing</span>
         </div>
+        <p class="sub-description">Utilisation du module Assistance de GLPI pour la gestion complète du cycle de vie des tickets : création, catégorisation, assignation, suivi et clôture des demandes.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">GLPI — Création d'un ticket</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Ticket creation">
+            <div class="image-caption">Nouveau ticket — catégorisation et priorité</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">GLPI — Ticket résolu et clôturé</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Ticket resolved">
+            <div class="image-caption">Cycle complet : ouvert → résolu → clôturé</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">GLPI Assistance</span>
+          <span class="tool-tag">ITIL</span>
+        </div>
+      </div>
+
+      <!-- 2.2 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Traiter des demandes concernant les services réseau et système, applicatifs</h3>
+          <span class="sub-tag">Réseau & Système</span>
+        </div>
+        <p class="sub-description">Diagnostic et résolution d'incidents réseau et système : vérification de connectivité inter-VLAN, dépannage DNS, redémarrage de services, analyse des logs système.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Diagnostic réseau — ping / traceroute</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Network diagnostic">
+            <div class="image-caption">Test de connectivité inter-VLAN</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Résolution incident — journalctl / logs</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Logs analysis">
+            <div class="image-caption">Analyse des logs et résolution</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">ping</span>
+          <span class="tool-tag">traceroute</span>
+          <span class="tool-tag">journalctl</span>
+          <span class="tool-tag">systemctl</span>
+        </div>
+      </div>
+
+      <!-- 2.3 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Traiter des demandes concernant les applications</h3>
+          <span class="sub-tag">Applications</span>
+        </div>
+        <p class="sub-description">Traitement d'incidents applicatifs : mise à jour de GLPI, résolution de problèmes d'accès à l'intranet Nginx, gestion des droits utilisateurs dans les applications.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Incident applicatif — GLPI ou Nginx</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="App incident">
+            <div class="image-caption">Diagnostic et résolution incident applicatif</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Ticket GLPI — demande applicative résolue</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="App ticket resolved">
+            <div class="image-caption">Ticket applicatif — cycle complet</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">GLPI</span>
+          <span class="tool-tag">Nginx</span>
+          <span class="tool-tag">Logs applicatifs</span>
+        </div>
+      </div>
     </section>
 
-    <!-- E5 -->
-    <section class="section">
-        <div class="container-narrow">
-            <div class="epreuve-block">
-                <div class="epreuve-header">
-                    <span class="epreuve-code e5">E5</span>
-                    <span class="epreuve-title">Administration des systèmes et des réseaux</span>
-                    <span class="epreuve-coeff">Coeff. 4 — Oral 40 min</span>
-                </div>
-                <div class="epreuve-body">
-                    <p class="epreuve-desc">
-                        Présentation de deux réalisations professionnelles illustrant les compétences d'administration des systèmes et des réseaux.
-                        Chaque réalisation est documentée avec : contexte, architecture, procédure technique, tests et bilan.
-                    </p>
-                    <h3 class="section-title mb-md" style="font-size: 1.125rem;">Réalisations présentées</h3>
-                    <div style="overflow-x: auto;">
-                        <table class="synthese-table">
-                            <thead>
-                                <tr>
-                                    <th>Réalisation</th>
-                                    <th>Description</th>
-                                    <th>Technologies</th>
-                                    <th>Compétences</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="situation-title">Proxmox Secure Lab</td>
-                                    <td>Déploiement d'un homelab sécurisé sur Proxmox avec segmentation VLANs, firewall pfSense, pipeline CI/CD (Forgejo + Woodpecker), monitoring (Grafana + VictoriaMetrics) et backup NAS</td>
-                                    <td>
-                                        <span class="competence-tag">Proxmox</span>
-                                        <span class="competence-tag">pfSense</span>
-                                        <span class="competence-tag">Docker</span>
-                                        <span class="competence-tag">LXC</span>
-                                        <span class="competence-tag">Grafana</span>
-                                    </td>
-                                    <td>
-                                        <span class="competence-tag green">B2.1</span>
-                                        <span class="competence-tag green">B2.2</span>
-                                        <span class="competence-tag green">B2.3</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Déploiement infra serveur Kali</td>
-                                    <td>Installation et configuration d'un serveur Debian en production avec VPN Tailscale, GLPI (inventaire), Nextcloud (cloud privé), sauvegardes automatisées et hardening</td>
-                                    <td>
-                                        <span class="competence-tag">Debian</span>
-                                        <span class="competence-tag">Tailscale</span>
-                                        <span class="competence-tag">GLPI</span>
-                                        <span class="competence-tag">Nextcloud</span>
-                                        <span class="competence-tag">Bash</span>
-                                    </td>
-                                    <td>
-                                        <span class="competence-tag green">B2.1</span>
-                                        <span class="competence-tag green">B2.2</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <h3 class="section-title mb-md" style="font-size: 1.125rem; margin-top: 1.5rem;">Documentation technique</h3>
-                    <div class="documents-list">
-                        <a href="proxmox-secure-lab.html" class="document-link">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 18H7v-2h6v2zm0-4H7v-2h6v2zm-2-6V3.5L16.5 9H11z"/></svg>
-                            Proxmox Secure Lab — Architecture & Documentation
-                            <span class="doc-format">HTML</span>
-                        </a>
-                        <a href="realisations.html" class="document-link">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 18H7v-2h6v2zm0-4H7v-2h6v2zm-2-6V3.5L16.5 9H11z"/></svg>
-                            Toutes les réalisations détaillées
-                            <span class="doc-format">HTML</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- COMPÉTENCE 3 : Présence en ligne       -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="competence" id="c3">
+      <div class="competence-header">
+        <div class="competence-number">3</div>
+        <h2 class="competence-title">Développer la présence en ligne de l'organisation</h2>
+      </div>
+
+      <!-- 3.1 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Participer à la valorisation de l'image de l'organisation sur les médias numériques</h3>
+          <span class="sub-tag">Image</span>
         </div>
+        <p class="sub-description">Mise en place d'un site vitrine / intranet ConseilPro respectant le cadre juridique : mentions légales, politique de confidentialité, conformité RGPD.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Site / Intranet ConseilPro</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Site ConseilPro">
+            <div class="image-caption">Site vitrine ConseilPro</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Mentions légales / RGPD</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Mentions legales">
+            <div class="image-caption">Mentions légales et conformité RGPD</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Nginx</span>
+          <span class="tool-tag">HTML/CSS</span>
+          <span class="tool-tag">RGPD</span>
+        </div>
+      </div>
+
+      <!-- 3.2 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Référencer les services en ligne de l'organisation et mesurer leur visibilité</h3>
+          <span class="sub-tag">Référencement</span>
+        </div>
+        <p class="sub-description">Référencement des services internes de ConseilPro : enregistrements DNS, accessibilité des services, mesure de disponibilité via Zabbix.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">DNS — enregistrements services</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="DNS records">
+            <div class="image-caption">Enregistrements DNS conseilpro.local</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Zabbix — disponibilité des services web</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Zabbix web monitoring">
+            <div class="image-caption">Monitoring de disponibilité</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Bind9</span>
+          <span class="tool-tag">Zabbix</span>
+          <span class="tool-tag">DNS</span>
+        </div>
+      </div>
+
+      <!-- 3.3 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Participer à l'évolution d'un site Web exploitant les données de l'organisation</h3>
+          <span class="sub-tag">Évolution web</span>
+        </div>
+        <p class="sub-description">Évolution de l'intranet ConseilPro : ajout de pages, intégration de données dynamiques, mise à jour du contenu en fonction des besoins des services.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Avant — version initiale du site</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Site before">
+            <div class="image-caption">Version initiale de l'intranet</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Après — évolution avec nouvelles fonctionnalités</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Site after">
+            <div class="image-caption">Version évoluée avec nouvelles pages</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Nginx</span>
+          <span class="tool-tag">HTML/CSS/JS</span>
+        </div>
+      </div>
     </section>
 
-    <!-- E6 -->
-    <section class="section">
-        <div class="container-narrow">
-            <div class="epreuve-block">
-                <div class="epreuve-header">
-                    <span class="epreuve-code e6">E6</span>
-                    <span class="epreuve-title">Cybersécurité des services informatiques</span>
-                    <span class="epreuve-coeff">Coeff. 4 — Écrit 4h</span>
-                </div>
-                <div class="epreuve-body">
-                    <p class="epreuve-desc">
-                        Épreuve écrite portant sur l'analyse de situations de cybersécurité. Le candidat doit démontrer sa capacité à
-                        protéger les données, sécuriser les équipements et les usages, garantir la disponibilité et l'intégrité des services.
-                    </p>
-                    <h3 class="section-title mb-md" style="font-size: 1.125rem;">Situations mobilisant la cybersécurité</h3>
-                    <div style="overflow-x: auto;">
-                        <table class="synthese-table">
-                            <thead>
-                                <tr>
-                                    <th>Situation</th>
-                                    <th>Mesures de sécurité mises en place</th>
-                                    <th>Compétences</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="situation-title">Sécurisation WordPress (Kali)</td>
-                                    <td>Blocage IPs malveillantes, masquage wp-admin, restriction accès, sensibilisation utilisateurs</td>
-                                    <td>
-                                        <span class="competence-tag red">B3.1</span>
-                                        <span class="competence-tag red">B3.2</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Proxmox Secure Lab — Segmentation réseau</td>
-                                    <td>VLANs, firewall pfSense, DMZ isolée, Fail2ban, UFW, MFA, chiffrement GPG des backups</td>
-                                    <td>
-                                        <span class="competence-tag red">B3.1</span>
-                                        <span class="competence-tag red">B3.2</span>
-                                        <span class="competence-tag red">B3.3</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="situation-title">Déploiement serveur Kali — Hardening</td>
-                                    <td>VPN Tailscale (zero-trust), accès SSH par clé, mises à jour automatisées, sauvegardes chiffrées</td>
-                                    <td>
-                                        <span class="competence-tag red">B3.1</span>
-                                        <span class="competence-tag red">B3.2</span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- COMPÉTENCE 4 : Travailler en mode projet -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="competence" id="c4">
+      <div class="competence-header">
+        <div class="competence-number">4</div>
+        <h2 class="competence-title">Travailler en mode projet</h2>
+      </div>
+
+      <!-- 4.1 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Analyser les objectifs et les modalités d'organisation d'un projet</h3>
+          <span class="sub-tag">Objectifs</span>
         </div>
+        <p class="sub-description">Analyse du besoin ConseilPro : conception d'une infrastructure SI complète pour une entreprise de conseil avec segmentation réseau par département, services mutualisés et supervision centralisée.</p>
+        <div class="image-grid grid-1">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Schéma d'architecture réseau ConseilPro</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Architecture ConseilPro">
+            <div class="image-caption">Architecture cible — 6 VLANs, services centralisés</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Proxmox VE</span>
+          <span class="tool-tag">6 VLANs</span>
+          <span class="tool-tag">OPNsense</span>
+        </div>
+      </div>
+
+      <!-- 4.2 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Planifier les activités</h3>
+          <span class="sub-tag">Planification</span>
+        </div>
+        <p class="sub-description">Planification du déploiement ConseilPro : découpage en phases (réseau, services, supervision, sécurité), suivi via un outil de gestion de projet avec tâches et jalons.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Kanban / Gantt — planification des tâches</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Project planning">
+            <div class="image-caption">Planification — découpage en phases</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">GitHub / GLPI — suivi des tâches</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Task tracking">
+            <div class="image-caption">Suivi des tâches et progression</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">GLPI Projets</span>
+          <span class="tool-tag">GitHub Issues</span>
+        </div>
+      </div>
+
+      <!-- 4.3 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Évaluer les indicateurs de suivi d'un projet et analyser les écarts</h3>
+          <span class="sub-tag">Suivi</span>
+        </div>
+        <p class="sub-description">Suivi d'avancement du projet ConseilPro : comparaison planifié vs réalisé, identification des écarts (retards, problèmes techniques rencontrés), bilan et leçons apprises.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Avancement — tâches réalisées vs planifiées</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Progress tracking">
+            <div class="image-caption">Indicateurs d'avancement du projet</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Bilan — écarts et solutions apportées</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Gap analysis">
+            <div class="image-caption">Analyse des écarts et actions correctives</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Bilan projet</span>
+          <span class="tool-tag">Analyse des écarts</span>
+        </div>
+      </div>
     </section>
 
-    <!-- RÉFÉRENTIEL COMPÉTENCES -->
-    <section class="section">
-        <div class="container-narrow">
-            <div class="competences-ref">
-                <div class="section-header">
-                    <h2 class="section-title" style="font-size: 1.25rem;">Référentiel de compétences BTS SIO</h2>
-                    <p class="section-subtitle" style="font-size: 0.9375rem;">Blocs de compétences du référentiel officiel</p>
-                </div>
-                <div class="competences-grid">
-                    <div class="competence-item">
-                        <code class="blue">B1.1</code>
-                        <span>Gérer le patrimoine informatique</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="blue">B1.2</code>
-                        <span>Répondre aux incidents et aux demandes</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="blue">B1.3</code>
-                        <span>Développer la présence en ligne</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="blue">B1.4</code>
-                        <span>Travailler en mode projet</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="blue">B1.5</code>
-                        <span>Mettre à disposition un service informatique</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="blue">B1.6</code>
-                        <span>Organiser son développement professionnel</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="green">B2.1</code>
-                        <span>Concevoir une solution d'infrastructure réseau</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="green">B2.2</code>
-                        <span>Installer, tester et déployer un service</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="green">B2.3</code>
-                        <span>Exploiter, dépanner et superviser une infrastructure</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="red">B3.1</code>
-                        <span>Protéger les données à caractère personnel</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="red">B3.2</code>
-                        <span>Préserver l'identité numérique</span>
-                    </div>
-                    <div class="competence-item">
-                        <code class="red">B3.3</code>
-                        <span>Sécuriser les équipements et les usages</span>
-                    </div>
-                </div>
-            </div>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- COMPÉTENCE 5 : Mettre à disposition    -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="competence" id="c5">
+      <div class="competence-header">
+        <div class="competence-number">5</div>
+        <h2 class="competence-title">Mettre à disposition des utilisateurs un service informatique</h2>
+      </div>
+
+      <!-- 5.1 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Réaliser les tests d'intégration et d'acceptation d'un service</h3>
+          <span class="sub-tag">Tests</span>
         </div>
+        <p class="sub-description">Tests de validation des services déployés : connectivité réseau entre VLANs, résolution DNS, accès aux partages Samba, fonctionnement de la supervision Zabbix, accessibilité de l'intranet.</p>
+        <div class="image-grid grid-3">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Test ping inter-VLAN</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Ping test">
+            <div class="image-caption">Connectivité inter-VLAN validée</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Test DNS — nslookup / dig</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="DNS test">
+            <div class="image-caption">Résolution DNS fonctionnelle</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Test accès Samba / intranet</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Service test">
+            <div class="image-caption">Accès aux services validé</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">ping</span>
+          <span class="tool-tag">nslookup</span>
+          <span class="tool-tag">smbclient</span>
+          <span class="tool-tag">curl</span>
+        </div>
+      </div>
+
+      <!-- 5.2 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Déployer un service</h3>
+          <span class="sub-tag">Déploiement</span>
+        </div>
+        <p class="sub-description">Déploiement de GLPI sur l'infrastructure ConseilPro : création du CT LXC, installation de la stack LAMP, configuration de MariaDB, déploiement de l'application et import du parc informatique.</p>
+        <div class="image-grid grid-3">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Proxmox — Création CT GLPI</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="CT creation">
+            <div class="image-caption">pct create 196 — CT LXC Debian 12</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Installation LAMP + GLPI</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="GLPI install">
+            <div class="image-caption">Stack Apache + PHP + MariaDB + GLPI</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">GLPI opérationnel — dashboard</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="GLPI running">
+            <div class="image-caption">Service GLPI opérationnel</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Proxmox LXC</span>
+          <span class="tool-tag">Apache</span>
+          <span class="tool-tag">PHP 8.2</span>
+          <span class="tool-tag">MariaDB</span>
+          <span class="tool-tag">GLPI 10.0</span>
+        </div>
+      </div>
+
+      <!-- 5.3 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Accompagner les utilisateurs dans la mise en place d'un service</h3>
+          <span class="sub-tag">Accompagnement</span>
+        </div>
+        <p class="sub-description">Création d'une documentation utilisateur pour les services ConseilPro : guide d'utilisation de GLPI pour la création de tickets, procédure d'accès aux partages Samba, documentation du wiki interne.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Documentation utilisateur — Wiki / PDF</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="User documentation">
+            <div class="image-caption">Guide utilisateur GLPI / Samba</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Base de connaissances GLPI</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Knowledge base">
+            <div class="image-caption">FAQ / Base de connaissances interne</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">GLPI Knowledge Base</span>
+          <span class="tool-tag">Documentation</span>
+        </div>
+      </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Navigation</h3>
-                    <ul class="footer-links">
-                        <li><a href="index.html">Accueil</a></li>
-                        <li><a href="parcours.html">Parcours</a></li>
-                        <li><a href="realisations.html">Réalisations</a></li>
-                        <li><a href="epreuves.html">Épreuves</a></li>
-                        <li><a href="veille.html">Veille</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <ul class="footer-links">
-                        <li><a href="mailto:tomdaluzeau@gmail.com">tomdaluzeau@gmail.com</a></li>
-                        <li><a href="tel:+33767694404">07 67 69 44 04</a></li>
-                        <li>Villers-sur-Marne (94350)</li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Réseaux</h3>
-                    <div class="footer-social">
-                        <a href="https://github.com/tmdlz" target="_blank" rel="noopener" title="GitHub">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                            </svg>
-                        </a>
-                        <a href="https://www.linkedin.com/in/daluzeautom/" target="_blank" rel="noopener" title="LinkedIn">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Tom Daluzeau • Portfolio BTS SIO SISR • Tous droits réservés</p>
-            </div>
-        </div>
-    </footer>
+    <!-- ═══════════════════════════════════════ -->
+    <!-- COMPÉTENCE 6 : Développement pro       -->
+    <!-- ═══════════════════════════════════════ -->
+    <section class="competence" id="c6">
+      <div class="competence-header">
+        <div class="competence-number">6</div>
+        <h2 class="competence-title">Organiser son développement professionnel</h2>
+      </div>
 
-    <script>
-        const navToggle = document.getElementById('navToggle');
-        const navMenu = document.getElementById('navMenu');
-        navToggle.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-        });
-    </script>
+      <!-- 6.1 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Mettre en place son environnement d'apprentissage personnel</h3>
+          <span class="sub-tag">Apprentissage</span>
+        </div>
+        <p class="sub-description">Environnement d'apprentissage structuré : formation CCNA sur Cisco Networking Academy, mémorisation par répétition espacée avec Anki, labs pratiques sur Proxmox, assistance IA avec Claude.</p>
+        <div class="image-grid grid-3">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Cisco Networking Academy — CCNA</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="CCNA course">
+            <div class="image-caption">Formation CCNA 200-301</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Anki — Decks de révision</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Anki decks">
+            <div class="image-caption">Répétition espacée — Anki SRS</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Lab Proxmox — ConseilPro</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Proxmox lab">
+            <div class="image-caption">Apprentissage par la pratique</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Cisco NetAcad</span>
+          <span class="tool-tag">Anki</span>
+          <span class="tool-tag">Proxmox</span>
+          <span class="tool-tag">Claude AI</span>
+        </div>
+      </div>
+
+      <!-- 6.2 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Mettre en œuvre des outils et stratégies de veille informationnelle (lire Stephane Robert a ce suject)</h3>
+          <span class="sub-tag">Veille</span>
+        </div>
+        <p class="sub-description">Veille technologique active orientée Cloud et DevOps : flux RSS via Feedly (Microsoft Azure Blog, Build5Nines), suivi des évolutions des technologies d'infrastructure.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Feedly — Flux RSS Cloud / DevOps</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Feedly">
+            <div class="image-caption">Veille technologique — Feedly</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Sources de veille — Azure Blog, Build5Nines</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Veille sources">
+            <div class="image-caption">Sources spécialisées Cloud & DevOps</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">Feedly</span>
+          <span class="tool-tag">RSS</span>
+          <span class="tool-tag">Azure Blog</span>
+        </div>
+      </div>
+
+      <!-- 6.3 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Gérer son identité professionnelle</h3>
+          <span class="sub-tag">Identité pro</span>
+        </div>
+        <p class="sub-description">Présence professionnelle en ligne : profil LinkedIn à jour avec compétences et certifications, portfolio technique sur Notion présentant les projets réalisés.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Profil LinkedIn</div>
+            </div>
+            <img src="assets/E5/Portfolio.png" alt="LinkedIn profile">
+            <div class="image-caption">Profil LinkedIn professionnel</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Portfolio Notion</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Notion portfolio">
+            <div class="image-caption">Portfolio technique — Notion</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">LinkedIn</span>
+          <span class="tool-tag">Notion</span>
+          <span class="tool-tag">AZ-900</span>
+        </div>
+      </div>
+
+      <!-- 6.4 -->
+      <div class="sub-competence">
+        <div class="sub-header">
+          <h3 class="sub-title">Développer son projet professionnel</h3>
+          <span class="sub-tag">Projet pro</span>
+        </div>
+        <p class="sub-description">Projet professionnel orienté DevOps / Cloud : certification AZ-900 obtenue, recherche d'alternance Bachelor DevOps à l'ESGI Paris, objectif à terme d'évoluer vers un poste d'Architecte Cloud.</p>
+        <div class="image-grid grid-2">
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Certification AZ-900</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="AZ-900 cert">
+            <div class="image-caption">Microsoft Azure Fundamentals — AZ-900</div>
+          </div>
+          <div class="image-slot">
+            <div class="placeholder">
+              <svg class="placeholder-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+              <div class="placeholder-text">Roadmap — BTS → Bachelor DevOps → Architecte Cloud</div>
+            </div>
+            <img src="assets/E5/screen_GLPI.png" alt="Career roadmap">
+            <div class="image-caption">Parcours : BTS SIO → Bachelor DevOps ESGI → Architecte Cloud</div>
+          </div>
+        </div>
+        <div class="tools">
+          <span class="tool-tag">AZ-900</span>
+          <span class="tool-tag">ESGI Paris</span>
+          <span class="tool-tag">DevOps</span>
+          <span class="tool-tag">Architecte Cloud</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">✕</button>
+    <span class="lightbox-hint">Double-clic ou Échap pour fermer</span>
+    <img src="" alt="" id="lightbox-img">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+
+  <script>
+    // === Image loader ===
+    document.querySelectorAll('.image-slot img').forEach(img => {
+      if (img.src && img.src !== window.location.href) {
+        img.onload = () => img.parentElement.classList.add('has-image');
+        img.onerror = () => img.parentElement.classList.remove('has-image');
+        if (img.complete && img.naturalWidth > 0) {
+          img.parentElement.classList.add('has-image');
+        }
+      }
+    });
+
+    // === Lightbox ===
+    const overlay = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lightbox-img');
+    const lbCaption = document.getElementById('lightbox-caption');
+    const lbClose = document.getElementById('lightbox-close');
+    let scrollY = 0;
+
+    function openLightbox(src, alt, caption) {
+      scrollY = window.scrollY;
+      lbImg.src = src;
+      lbImg.alt = alt;
+      lbCaption.textContent = caption || '';
+      lbCaption.style.display = caption ? 'block' : 'none';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      window.scrollTo(0, scrollY);
+    }
+
+    // Double-click on image slot to open
+    document.querySelectorAll('.image-slot.has-image, .image-slot').forEach(slot => {
+      slot.addEventListener('dblclick', (e) => {
+        if (!slot.classList.contains('has-image')) return;
+        const img = slot.querySelector('img');
+        const captionEl = slot.querySelector('.image-caption');
+        const caption = captionEl ? captionEl.textContent : '';
+        openLightbox(img.src, img.alt, caption);
+      });
+    });
+
+    // Also support single click (more intuitive)
+    document.querySelectorAll('.image-slot').forEach(slot => {
+      slot.addEventListener('click', (e) => {
+        if (!slot.classList.contains('has-image')) return;
+        const img = slot.querySelector('img');
+        const captionEl = slot.querySelector('.image-caption');
+        const caption = captionEl ? captionEl.textContent : '';
+        openLightbox(img.src, img.alt, caption);
+      });
+    });
+
+    // Double-click on overlay to close (returns to exact scroll position)
+    overlay.addEventListener('dblclick', closeLightbox);
+
+    // Single click on overlay background (not on the image) also closes
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay || e.target === lbClose) {
+        closeLightbox();
+      }
+    });
+
+    // Close button
+    lbClose.addEventListener('click', closeLightbox);
+
+    // Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+        closeLightbox();
+      }
+    });
+
+    // Re-bind after images load (for slots that get has-image later)
+    new MutationObserver(() => {
+      document.querySelectorAll('.image-slot.has-image').forEach(slot => {
+        if (!slot.dataset.lbBound) {
+          slot.dataset.lbBound = '1';
+          slot.addEventListener('dblclick', () => {
+            const img = slot.querySelector('img');
+            const captionEl = slot.querySelector('.image-caption');
+            openLightbox(img.src, img.alt, captionEl ? captionEl.textContent : '');
+          });
+        }
+      });
+    }).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['class'] });
+  </script>
+
+  <!-- Footer -->
+  <footer style="text-align:center; padding:40px; color:var(--text-tertiary); font-size:13px; border-top:1px solid var(--border);">
+    Tom Daluzeau — BTS SIO SISR — Session 2026 — ConseilPro
+  </footer>
+
 </body>
 </html>
