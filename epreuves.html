@@ -500,6 +500,30 @@
       .sommaire-item { padding: 14px 18px; }
       .sommaire-label { font-size: 14px; }
     }
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      background-color: var(--accent);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 980px; /* Style pilule Apple */
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
+    }
+
+    .download-btn:hover {
+      background-color: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 113, 227, 0.4);
+      color: white;
+    }
+
+    .download-btn:active {
+      transform: translateY(0);
+    } 
   </style>
 </head>
 <body>
@@ -528,7 +552,17 @@
     <div class="hero-badge">BTS SIO SISR — Session 2026</div>
     <h1>Épreuve E5</h1>
     <p>Support et mise à disposition de services informatiques — Portfolio de compétences réalisé dans le cadre du projet ConseilPro.</p>
+      <div style="margin-bottom: 30px;">
+        <br>
+
+      <a href="/assets/Tableau-de-synthese-Daluzeau-Tom.xlsx" download class="download-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Télécharger mon tableau de synthèse
+      </a>
+    </div>
   </section>
+
+       
 
   <!-- Sommaire -->
   <section class="sommaire">
